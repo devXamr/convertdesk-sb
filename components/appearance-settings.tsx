@@ -1,9 +1,19 @@
 'use client'
 import React, {useEffect, useState} from 'react';
 
-function AppearanceSettings({setAppearanceColor, appearanceColor, setCompanyName, companyName, welcomeMessages, defaultMessages}) {
+function AppearanceSettings({setAppearanceColor, appearanceColor, chatbotName, setChatbotName, setCompanyName, companyName, setWelcomeMessages, welcomeMessages, defaultMessages, botPlacement, setBotPlacement}) {
+
+    const [currentWelcomeMessage, setCurrentWelcomeMessage] = useState('')
 
 
+    function handleWelcomeMessageAddition(){
+        if(currentWelcomeMessage === ''){
+            return;
+        }
+        setWelcomeMessages(prev => [...prev, currentWelcomeMessage])
+
+        setCurrentWelcomeMessage('')
+    }
 
     return (
         <div className='bg-white px-5 py-5 border rounded-md h-full shadow-sm'>
@@ -41,7 +51,7 @@ function AppearanceSettings({setAppearanceColor, appearanceColor, setCompanyName
                 </div>
 
                 <div className='w-full h-10'>
-                    <input type='text' value={companyName} onChange={(e) => setCompanyName(e.target.value)}
+                    <input type='text' value={chatbotName} onChange={(e) => setChatbotName(e.target.value)}
                            className='w-full h-full border rounded-md px-2 text-sm'/>
                 </div>
             </div>
@@ -53,10 +63,12 @@ function AppearanceSettings({setAppearanceColor, appearanceColor, setCompanyName
 
                 </div>
 
-                <div className='w-full h-14 mb-4'>
-                    <textarea value={companyName} onChange={(e) => setCompanyName(e.target.value)}
+                <div className='w-full h-14'>
+                    <textarea value={currentWelcomeMessage} onChange={(e) => setCurrentWelcomeMessage(e.target.value)}
                               className='w-full h-full border rounded-md px-2 text-sm py-2'/>
+
                 </div>
+                <button className='block mb-4 ml-auto bg-black text-white px-4 py-2 mt-1 rounded-md text-sm' onClick={handleWelcomeMessageAddition}>Add</button>
 
                 <div>{welcomeMessages.map(each => <div
                     className='px-4 py-2 bg-blue-100 border text-sm rounded-md mb-1'>{each}</div>
@@ -71,8 +83,8 @@ function AppearanceSettings({setAppearanceColor, appearanceColor, setCompanyName
                 </div>
 
                 <div className='w-full h-10 flex'>
-                    <div className='px-6 py-3 text-sm bg-gray-50 rounded-l-md w-1/2 text-center'>Bottom Left</div>
-                    <div className='px-6 py-3 text-sm bg-gray-200 rounded-r-md w-1/2 text-center'>Bottom Right</div>
+                    <div className={`px-6 py-3 text-sm transition-colors cursor-pointer ${botPlacement === 'left' ? 'bg-gray-900 text-white':'bg-gray-50'} rounded-l-md w-1/2 text-center`} onClick={() => setBotPlacement('left')}>Bottom Left</div>
+                    <div className={`px-6 py-3 text-sm transition-colors cursor-pointer ${botPlacement === 'right' ? 'bg-gray-900 text-white':'bg-gray-50'} bg-gray-200 rounded-r-md w-1/2 text-center`} onClick={() => setBotPlacement('right')}>Bottom Right</div>
 
                 </div>
             </div>

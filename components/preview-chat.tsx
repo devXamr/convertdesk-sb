@@ -5,14 +5,14 @@ import AiMessage from "@/components/ai-message";
 
 
 
-function PreviewChat({appearanceColor, companyName, defaultMessages, welcomeMessages}) {
+function PreviewChat({appearanceColor, companyName, defaultMessages, welcomeMessages, botPlacement}) {
     const [chatIconClicked, setChatIconClicked] = useState(true)
 
 
 
     return (
-        <div className='absolute bottom-2 right-2'>
-            {chatIconClicked && <div className='bottom-14 flex flex-col relative h-[350px] w-[350px] bg-gray-50 border-gray-300 shadow-sm rounded-md border'>
+        <div className={`absolute ${botPlacement === 'right' ? 'right-2' : 'left-2'} bottom-2`}>
+            {chatIconClicked && <div className='bottom-14 flex flex-col relative h-[600px] w-[400px] bg-gray-50 border-gray-300 shadow-sm rounded-md border'>
                 <div className='flex py-2 px-2 items-center gap-4' style={{backgroundColor: appearanceColor}}>
                     <div className='rounded-full w-10 h-10 bg-black'></div>
                     <div className='text-white'>{companyName}</div>
@@ -30,7 +30,7 @@ function PreviewChat({appearanceColor, companyName, defaultMessages, welcomeMess
                     <button className='bg-white text-gray-500 px-3'><Send size='20px'/></button>
                 </div>
             </div>}
-            <div style={{backgroundColor: appearanceColor}} onClick={() => setChatIconClicked(prev => !prev)} className='rounded-full px-3 py-3 text-white absolute bottom-0 right-0'><div><MessageSquareDot/></div></div>
+            <div style={{backgroundColor: appearanceColor}} onClick={() => setChatIconClicked(prev => !prev)} className={`rounded-full px-3 py-3 text-white absolute transition-all ${botPlacement === 'right' ? 'bottom-0 right-0' : 'bottom-0 left-0'}`}><div><MessageSquareDot/></div></div>
         </div>
     );
 }
