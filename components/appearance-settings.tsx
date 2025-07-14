@@ -1,7 +1,8 @@
 'use client'
 import React, {useEffect, useState} from 'react';
 
-function AppearanceSettings({setAppearanceColor, appearanceColor, setCompanyName, companyName}) {
+function AppearanceSettings({setAppearanceColor, appearanceColor, setCompanyName, companyName, welcomeMessages, defaultMessages}) {
+
 
 
     return (
@@ -49,12 +50,17 @@ function AppearanceSettings({setAppearanceColor, appearanceColor, setCompanyName
                 <div>
                     <div>Welcome Message</div>
                     <div className='text-xs text-gray-600 mb-2'> This will appear above chatbot messages</div>
+
                 </div>
 
-                <div className='w-full h-10'>
+                <div className='w-full h-14 mb-4'>
                     <textarea value={companyName} onChange={(e) => setCompanyName(e.target.value)}
-                              className='w-full h-full border rounded-md px-2 text-sm'/>
+                              className='w-full h-full border rounded-md px-2 text-sm py-2'/>
                 </div>
+
+                <div>{welcomeMessages.map(each => <div
+                    className='px-4 py-2 bg-blue-100 border text-sm rounded-md mb-1'>{each}</div>
+                )}</div>
             </div>
 
             <div className='mt-7 gap-4'>
@@ -92,9 +98,9 @@ function AppearanceSettings({setAppearanceColor, appearanceColor, setCompanyName
             </div>
 
             <div className='flex flex-wrap gap-2'>
-                <div className='px-4 py-2 bg-gray-100 border text-sm rounded-md'>How long does the process take?</div>
-                <div className='px-4 py-2 bg-gray-100 border text-sm rounded-md'>Do I need to be present there?</div>
-                <div className='px-4 py-2 bg-gray-100 border text-sm rounded-md'>What documents will I need?</div>
+
+                {defaultMessages.map(each => <div className='px-4 py-2 bg-blue-100 border text-sm rounded-md'>{each}</div>)}
+
 
             </div>
             <div className=' mb-3 mt-2 text-gray-600 text-sm'>We recommend having 2-3 messages at most.</div>
