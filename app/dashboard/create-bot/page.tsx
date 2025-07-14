@@ -1,25 +1,143 @@
-import React from 'react';
+'use client'
+import React, {useState} from 'react';
 import Link from "next/link";
+import PreviewChat from "@/components/preview-chat";
+import AppearanceSettings from "@/components/appearance-settings";
+import AppearanceConfigSection from "@/components/appearance-config-section";
 
-function CreateBotPage(props) {
+function CreateBotPage() {
+
+
     return (
         <div className='mt-10'>
-            <Link href='/dashboard' className='bg-gray-200 block w-fit mb-7 h-fit px-4 py-2 rounded-sm border border-gray-300 hover:bg-gray-100 text-sm'>Back to Dashboard</Link>
+            <Link href='/dashboard'
+                  className='bg-gray-200 block w-fit mb-7 h-fit px-4 py-2 rounded-sm border border-gray-300 hover:bg-gray-100 text-sm'>Back
+                to Dashboard</Link>
             <div>
-                <div>Bot Appearance</div>
-                <div className='grid grid-cols-2 gap-4'>
-                    <div className='col-span-1'>
-                        <div>Preview</div>
-                        <div className='min-h-[450px] bg-gray-100 rounded-sm mt-7 relative'>
+                <div className='text-xl font-medium'>Bot Appearance</div>
+                <div className='mb-5 text-sm text-gray-500'>Select the appearance of your bot (This can be changed
+                    later.)
+                </div>
+                <AppearanceConfigSection/>
+            </div>
+
+            <div className='text-xl font-medium mt-14'>Bot Configuration</div>
+            <div className='mb-5 text-sm text-gray-500'>Manage the information resources of your bot and other
+                preferences.
+            </div>
+            <div className='mt-3 py-10 px-10 rounded-md shadow-sm border'>
+                <div>
+                    {/* just use the name of the chatbot as the knowledge base name. <div className='mb-5'>
+                        <div className='text-lg text-gray-800'>Knowlege Base Name</div>
+                        <div className='text-sm text-gray-500 mb-1'>This name will help you find this knowledge base when you need it for some other bot.</div>
+                        <input type='text'
+                               className='w-1/3 py-3 h-full border rounded-md px-2 text-sm'/>
+                    </div>*/}
+
+                    <div className='text-lg'>Knowledge Base</div>
+                    <div className=' mb-3 text-gray-600 text-sm'>Please submit documents about what your business does
+                        and the questions you have answers for below. (only docx and pdf extensions supported.)
+                    </div>
+                    <div className='w-full bg-gray-100 py-4 border border-dashed'>
+                        <input type='file' className='block w-fit mx-auto'/>
+                    </div>
+
+                    <div className='mt-5 text-gray-600 text-sm'>Don't have a document? describe your business and its
+                        activities.
+                    </div>
+
+                    <textarea className='w-full min-h-[100px] bg-gray-50 border px-2 py-2 text-gray-800'/>
+
+                    <div className=' mb-3 mt-7 text-gray-600 text-sm'>Please select the default message options you
+                        would like the user to have. Some messages have been predefined based on your knowledge base. These messages appear in the beggining of the chat when the chat window is empty.
+                    </div>
+
+                    <div className='flex flex-wrap gap-2'>
+                        <div className='px-4 py-2 bg-gray-100 border text-sm rounded-md'>How long does the process take?</div>
+                        <div className='px-4 py-2 bg-gray-100 border text-sm rounded-md'>Do I need to be present there?</div>
+                        <div className='px-4 py-2 bg-gray-100 border text-sm rounded-md'>What documents will I need?</div>
+
+                    </div>
+                    <div className=' mb-3 mt-2 text-gray-600 text-sm'>We recommend having 2-3 messages at most.</div>
+
+                    <div className=' mt-10'>Add a default message option</div>
+                    <div className='flex gap-4 mb-10 mt-1'>
+
+                        <div className='w-1/2'>
+                            <div className='text-sm text-gray-600'>Option Value</div>
+                            <input type='text'
+                                   className='w-full h-full border rounded-md px-2 text-sm'/>
                         </div>
                     </div>
-                    <div className='col-span-1'>Settings</div>
 
+                    <button className='px-5 py-2 w-fit ml-auto block bg-black text-sm rounded-md mt-3 text-white'>Save
+                        Changes
+                    </button>
                 </div>
             </div>
 
-            <div>
-                <div>Bot Config</div>
+
+            <div className='mt-3 py-10 px-10 rounded-md shadow-sm border'>
+                <div>
+
+
+                    <div className='text-lg font-medium'>Form Configuration</div>
+
+                    <div className='text-md mt-5'>Form Fields</div>
+                    <div className=' mb-3 text-gray-600 text-sm'>Please select the fields you would like to include in
+                        the form
+                    </div>
+                    <div>
+                        <div className='flex flex-wrap gap-2'>
+                            <div className='px-4 py-2 bg-gray-100 border text-sm rounded-md'>Name</div>
+                            <div className='px-4 py-2 bg-gray-100 border text-sm rounded-md'>Contact Number</div>
+                            <div className='px-4 py-2 bg-gray-100 border text-sm rounded-md'>Email</div>
+                            <div className='px-4 py-2 bg-gray-100 border text-sm rounded-md'>Message</div>
+                            <div className='px-4 py-2 bg-gray-100 border text-sm rounded-md'>Name</div>
+                        </div>
+                        <div>
+                            <div className='text-md mt-10'>Add a field (optional)</div>
+
+                            <div className='flex gap-4 mb-10 mt-1'>
+                                <div>
+                                    <div className='text-sm text-gray-600'>Field Name</div>
+                                    <input type='email'
+                                           className='w-full h-full border rounded-md px-2 text-sm'/>
+                                </div>
+
+                                <div>
+                                    <div className='text-sm text-gray-600'>Type</div>
+                                    <select className='w-full h-full border rounded-md px-2 text-sm'>
+                                        <option>Text</option>
+                                        <option>Number</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className='text-md mt-10'>Receiving Email</div>
+                    <div className='text-gray-600 text-sm'>The email that will receive all form submissions.
+                    </div>
+                    <input type='text'
+                           className='w-1/4 h-full border rounded-md px-2 py-3 text-sm'/>
+
+
+                    <button className='px-5 py-2 w-fit ml-auto block bg-black text-sm rounded-md mt-3 text-white'>Save
+                        Changes
+                    </button>
+                </div>
+            </div>
+
+            <div className='mt-10 py-10'>
+                <div className='text-xl font-medium'>Bot Add-ons</div>
+                <div className='mb-5 text-sm text-gray-500'> This is where you can configure the addons (Whatsapp,
+                    Slack, etc) for your chatbot.
+                </div>
+
+                <div>
+                    <div>THis is</div>
+                </div>
             </div>
 
         </div>
