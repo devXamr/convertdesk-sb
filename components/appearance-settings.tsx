@@ -1,10 +1,20 @@
 'use client'
 import React, {useEffect, useState} from 'react';
+import {X} from "lucide-react";
 
-function AppearanceSettings({setAppearanceColor, appearanceColor, chatbotName, setChatbotName, setCompanyName, companyName, setWelcomeMessages, welcomeMessages, defaultMessages, botPlacement, setBotPlacement}) {
+function AppearanceSettings({chatColor, setChatColor, setAppearanceColor, appearanceColor, chatbotName, setChatbotName, setCompanyName, companyName, setWelcomeMessages, welcomeMessages, setDefaultMessages, defaultMessages, botPlacement, setBotPlacement, botSize, setBotSize}) {
 
     const [currentWelcomeMessage, setCurrentWelcomeMessage] = useState('')
+    const [currentDefaultMessage, setCurrentDefaultMessage] = useState('')
 
+    function handleDefaultMessageAddition(){
+        if (currentDefaultMessage === ''){
+            return
+        }
+        setDefaultMessages(prev => [...prev, currentDefaultMessage])
+
+        setCurrentDefaultMessage('')
+    }
 
     function handleWelcomeMessageAddition(){
         if(currentWelcomeMessage === ''){
@@ -28,6 +38,19 @@ function AppearanceSettings({setAppearanceColor, appearanceColor, chatbotName, s
 
                 <div className='w-12 h-10'>
                     <input type='color' value={appearanceColor} onChange={(e) => setAppearanceColor(e.target.value)}
+                           className='w-full h-full'/>
+                </div>
+            </div>
+
+            <div className='flex mt-7 gap-4'>
+                <div>
+                    <div>Chat Color</div>
+                    <div className='text-xs text-gray-600'>This color will be applied to user chats.
+                    </div>
+                </div>
+
+                <div className='w-12 h-10'>
+                    <input type='color' value={chatColor} onChange={(e) => setChatColor(e.target.value)}
                            className='w-full h-full'/>
                 </div>
             </div>
@@ -68,10 +91,16 @@ function AppearanceSettings({setAppearanceColor, appearanceColor, chatbotName, s
                               className='w-full h-full border rounded-md px-2 text-sm py-2'/>
 
                 </div>
-                <button className='block mb-4 ml-auto bg-black text-white px-4 py-2 mt-1 rounded-md text-sm' onClick={handleWelcomeMessageAddition}>Add</button>
+                <button className='block mb-4 ml-auto bg-black text-white px-4 py-2 mt-1 rounded-md text-sm'
+                        onClick={handleWelcomeMessageAddition}>Add
+                </button>
 
-                <div>{welcomeMessages.map(each => <div
-                    className='px-4 py-2 bg-blue-100 border text-sm rounded-md mb-1'>{each}</div>
+                <div className='flex flex-wrap gap-2'>{welcomeMessages.map(each => <div
+                        className='px-4 py-2 bg-blue-100 border text-sm rounded-md flex gap-3 '>{each}
+                        <div className='text-gray-500'><X size={20} className='cursor-pointer'
+                                                          onClick={() => setWelcomeMessages(prev => prev.filter(eachMessage => eachMessage !== each))}/>
+                        </div>
+                    </div>
                 )}</div>
             </div>
 
@@ -83,8 +112,14 @@ function AppearanceSettings({setAppearanceColor, appearanceColor, chatbotName, s
                 </div>
 
                 <div className='w-full h-10 flex'>
-                    <div className={`px-6 py-3 text-sm transition-colors cursor-pointer ${botPlacement === 'left' ? 'bg-gray-900 text-white':'bg-gray-50'} rounded-l-md w-1/2 text-center`} onClick={() => setBotPlacement('left')}>Bottom Left</div>
-                    <div className={`px-6 py-3 text-sm transition-colors cursor-pointer ${botPlacement === 'right' ? 'bg-gray-900 text-white':'bg-gray-50'} bg-gray-200 rounded-r-md w-1/2 text-center`} onClick={() => setBotPlacement('right')}>Bottom Right</div>
+                    <div
+                        className={`px-6 py-3 text-sm transition-colors cursor-pointer ${botPlacement === 'left' ? 'bg-gray-900 text-white' : 'bg-gray-50'} rounded-l-md w-1/2 text-center`}
+                        onClick={() => setBotPlacement('left')}>Bottom Left
+                    </div>
+                    <div
+                        className={`px-6 py-3 text-sm transition-colors cursor-pointer ${botPlacement === 'right' ? 'bg-gray-900 text-white' : 'bg-gray-50'} bg-gray-200 rounded-r-md w-1/2 text-center`}
+                        onClick={() => setBotPlacement('right')}>Bottom Right
+                    </div>
 
                 </div>
             </div>
@@ -97,37 +132,57 @@ function AppearanceSettings({setAppearanceColor, appearanceColor, chatbotName, s
                 </div>
 
                 <div className='w-full h-10 flex'>
-                    <div className='px-6 py-3 text-sm bg-gray-50 rounded-l-md w-1/2 text-center'>Small</div>
-                    <div className='px-6 py-3 text-sm bg-gray-200 w-1/2 text-center'>Medium</div>
-                    <div className='px-6 py-3 text-sm bg-gray-50 rounded-r-md w-1/2 text-center'>Large</div>
+                    <div
+                        className={`px-6 py-3 text-sm cursor-pointer transition-colors ${botSize === 'small' && 'bg-black text-white'} rounded-l-md w-1/2 text-center`}
+                        onClick={() => setBotSize('small')}>Small
+                    </div>
+                    <div
+                        className={`px-6 py-3 text-sm cursor-pointer transition-colors   ${botSize === 'medium' && 'bg-black text-white'} w-1/2 text-center`}
+                        onClick={() => setBotSize('medium')}>Medium
+                    </div>
+                    <div
+                        className={`px-6 py-3 text-sm cursor-pointer transition-colors ${botSize === 'large' && 'bg-black text-white'} rounded-r-md w-1/2 text-center`}
+                        onClick={() => setBotSize('large')}>Large
+                    </div>
 
                 </div>
             </div>
 
-            <div className=' mb-3 mt-7 text-gray-600 text-sm'>Please select the default message options you
-                would like the user to have. Some messages have been predefined based on your knowledge base. These
-                messages appear in the beggining of the chat when the chat window is empty.
+            <div className=' mb-3 mt-7 text-gray-600 text-sm'> Select the default message options you
+                would like the user to have. Shown when the chat window is empty.
             </div>
 
             <div className='flex flex-wrap gap-2'>
 
-                {defaultMessages.map(each => <div className='px-4 py-2 bg-blue-100 border text-sm rounded-md'>{each}</div>)}
+                {defaultMessages.map(each => <div
+                    className='px-4 py-2 bg-blue-100 border text-sm rounded-md flex gap-3 '>{each}
+                    <div className='text-gray-500'><X size={20} className='cursor-pointer'
+                                                      onClick={() => setDefaultMessages(prev => prev.filter(eachMessage => eachMessage !== each))}/>
+                    </div>
+                </div>)}
 
 
             </div>
-            <div className=' mb-3 mt-2 text-gray-600 text-sm'>We recommend having 2-3 messages at most.</div>
+            <div className=' mb-3 text-gray-600 text-sm text-center mt-6'>We recommend having 2-3 messages at most.
+            </div>
 
-            <div className=' mt-10'>Add a default message option</div>
-            <div className='flex gap-4 mb-10 mt-1'>
 
-                <div className='w-1/2'>
-                    <div className='text-sm text-gray-600'>Option Value</div>
+            <div className='mt-7'>Add a message option</div>
+            <div className='flex gap-4 mt-1'>
+
+                <div className='w-full'>
                     <input type='text'
-                           className='w-full h-full border rounded-md px-2 text-sm'/>
+                           className='w-full h-full border rounded-md px-2 py-2.5 text-sm' value={currentDefaultMessage}
+                           onChange={(e) => setCurrentDefaultMessage(e.target.value)}/>
                 </div>
-            </div>
 
-            <button className=' hover:bg-black/80 block mt-10 bg-black px-4 py-3 rounded-md text-sm w-full text-white'>
+            </div>
+            <button className='block mb-4 ml-auto bg-black text-white px-4 py-2 mt-1 rounded-md text-sm'
+                    onClick={handleDefaultMessageAddition}>Add
+            </button>
+
+
+            <button className=' hover:bg-black/80 block mt-7 bg-black px-4 py-3 rounded-md text-sm w-full text-white'>
                 Save Changes
             </button>
         </div>

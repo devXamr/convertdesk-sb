@@ -16,20 +16,23 @@ function AppearanceConfigSection() {
     const [defaultMessages, setDefaultMessages] = useState<string[]>([`Tell me about ${companyName}`, `What are the services of ${companyName}?`])
 
 
+    const [chatColor, setChatColor] = useState('#000000')
+
+
 
     return (
         <div className='grid grid-cols-5 gap-5'>
             <div className='col-span-3 flex flex-col border rounded-md shadow-sm pt-5 h-fit sticky top-0 '>
                 <div className='text-lg px-5 font-light'>Preview</div>
-                <div className='min-h-[450px] flex-1  bg-gray-50 rounded-sm mt-4 relative'>
-                    <PreviewChat appearanceColor={appearanceColor} companyName={companyName} chatbotName={chatbotName} welcomeMessages={welcomeMessages} botPlacement={botPlacement} botSize={botSize} defaultMessages={defaultMessages}/>
+                <div className='min-h-[700px] flex-1  bg-gray-50 rounded-sm mt-4 relative'>
+                    <PreviewChat appearanceColor={appearanceColor} companyName={companyName} chatbotName={chatbotName} welcomeMessages={welcomeMessages} botPlacement={botPlacement} botSize={botSize} defaultMessages={defaultMessages} chatColor={chatColor}/>
                 </div>
             </div>
 
             <div className='col-span-2'>
                 <AppearanceSettings appearanceColor={appearanceColor} setAppearanceColor={setAppearanceColor}
                                     companyName={companyName} setCompanyName={setCompanyName} chatbotName={chatbotName} setChatbotName={setChatbotName} welcomeMessages={welcomeMessages} setWelcomeMessages={setWelcomeMessages}
-                                    botPlacement={botPlacement} setBotPlacement={setBotPlacement} botSize={botSize} setBotSize={setBotSize} defaultMessages={defaultMessages} setDefaultMessages={setDefaultMessages} />
+                                    botPlacement={botPlacement} setBotPlacement={setBotPlacement} botSize={botSize} setBotSize={setBotSize} defaultMessages={defaultMessages} setDefaultMessages={setDefaultMessages} chatColor={chatColor} setChatColor={setChatColor}/>
 
             </div>
 
