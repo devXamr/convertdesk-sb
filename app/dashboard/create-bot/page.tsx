@@ -5,10 +5,8 @@ import PreviewChat from "@/components/preview-chat";
 import AppearanceSettings from "@/components/appearance-settings";
 import AppearanceConfigSection from "@/components/appearance-config-section";
 import {Dropzone} from "@/components/dropzone";
+import BotConfigSection from "@/components/bot-config-section";
 
-function DropZone() {
-    return null;
-}
 
 function CreateBotPage() {
 
@@ -31,31 +29,7 @@ function CreateBotPage() {
                 preferences.
             </div>
             <div className='mt-3 py-10 px-10 rounded-md shadow-sm border'>
-                <div>
-                    {/* just use the name of the chatbot as the knowledge base name. <div className='mb-5'>
-                        <div className='text-lg text-gray-800'>Knowlege Base Name</div>
-                        <div className='text-sm text-gray-500 mb-1'>This name will help you find this knowledge base when you need it for some other bot.</div>
-                        <input type='text'
-                               className='w-1/3 py-3 h-full border rounded-md px-2 text-sm'/>
-                    </div>*/}
-
-                    <div className='text-lg'>Knowledge Base</div>
-                    <div className=' mb-3 text-gray-600 text-sm'>Please submit documents about what your business does
-                        and the questions you have answers for below. (only docx and pdf extensions supported.)
-                    </div>
-
-                    <Dropzone fileRejections={} isFileDialogActive={} inputRef={} isDragReject={} isFocused={} getInputProps={} acceptedFiles={} isDragAccept={} rootRef={} getRootProps={} isDragActive={} open={}/>
-
-                    <div className='mt-5 text-gray-600 text-sm'>Don't have a document? describe your business and its
-                        activities.
-                    </div>
-
-                    <textarea className='w-full min-h-[100px] bg-gray-50 border px-2 py-2 text-gray-800'/>
-
-                    <button className='px-5 py-2 w-fit ml-auto block bg-black text-sm rounded-md mt-3 text-white'>Save
-                        Changes
-                    </button>
-                </div>
+                <BotConfigSection/>
             </div>
 
 
