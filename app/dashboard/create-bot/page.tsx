@@ -4,6 +4,11 @@ import Link from "next/link";
 import PreviewChat from "@/components/preview-chat";
 import AppearanceSettings from "@/components/appearance-settings";
 import AppearanceConfigSection from "@/components/appearance-config-section";
+import {Dropzone} from "@/components/dropzone";
+
+function DropZone() {
+    return null;
+}
 
 function CreateBotPage() {
 
@@ -38,37 +43,14 @@ function CreateBotPage() {
                     <div className=' mb-3 text-gray-600 text-sm'>Please submit documents about what your business does
                         and the questions you have answers for below. (only docx and pdf extensions supported.)
                     </div>
-                    <div className='w-full bg-gray-100 py-4 border border-dashed'>
-                        <input type='file' className='block w-fit mx-auto'/>
-                    </div>
+
+                    <Dropzone fileRejections={} isFileDialogActive={} inputRef={} isDragReject={} isFocused={} getInputProps={} acceptedFiles={} isDragAccept={} rootRef={} getRootProps={} isDragActive={} open={}/>
 
                     <div className='mt-5 text-gray-600 text-sm'>Don't have a document? describe your business and its
                         activities.
                     </div>
 
                     <textarea className='w-full min-h-[100px] bg-gray-50 border px-2 py-2 text-gray-800'/>
-
-                    <div className=' mb-3 mt-7 text-gray-600 text-sm'>Please select the default message options you
-                        would like the user to have. Some messages have been predefined based on your knowledge base. These messages appear in the beggining of the chat when the chat window is empty.
-                    </div>
-
-                    <div className='flex flex-wrap gap-2'>
-                        <div className='px-4 py-2 bg-gray-100 border text-sm rounded-md'>How long does the process take?</div>
-                        <div className='px-4 py-2 bg-gray-100 border text-sm rounded-md'>Do I need to be present there?</div>
-                        <div className='px-4 py-2 bg-gray-100 border text-sm rounded-md'>What documents will I need?</div>
-
-                    </div>
-                    <div className=' mb-3 mt-2 text-gray-600 text-sm'>We recommend having 2-3 messages at most.</div>
-
-                    <div className=' mt-10'>Add a default message option</div>
-                    <div className='flex gap-4 mb-10 mt-1'>
-
-                        <div className='w-1/2'>
-                            <div className='text-sm text-gray-600'>Option Value</div>
-                            <input type='text'
-                                   className='w-full h-full border rounded-md px-2 text-sm'/>
-                        </div>
-                    </div>
 
                     <button className='px-5 py-2 w-fit ml-auto block bg-black text-sm rounded-md mt-3 text-white'>Save
                         Changes

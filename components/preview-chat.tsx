@@ -33,7 +33,8 @@ function PreviewChat({appearanceColor, chatbotName, companyName, defaultMessages
                     <div className='text-white'>{companyName}</div>
                 </div>
 
-                <div className='flex-1 overflow-y-scroll py-3'>
+                <div className='flex-1 flex flex-col justify-between overflow-y-scroll py-3'>
+                    <div>
                     {welcomeMessages.map(each => <AiMessage message={each} chatbotName={chatbotName}/>)}
 
 
@@ -41,10 +42,11 @@ function PreviewChat({appearanceColor, chatbotName, companyName, defaultMessages
                          className='text-sm px-4 py-2 mt-2 bg-green-100 rounded-l-md text-gray-700 w-fit max-w-[70%] ml-auto'>This
                         message will be sent by the user.
                     </div>
+                    </div>
 
                     <div className='flex w-full flex-wrap gap-1 px-2 py-2 mt-4'>
                         {defaultMessages.map(each => <div
-                            className='text-xs px-3 py-1 border bg-gray-100 text-gray-600 cursor-pointer rounded-xl'>{each}</div>)}
+                            className='text-xs px-3 py-1 border bg-gray-100 text-gray-600 cursor-pointer rounded-lg'>{each}</div>)}
                     </div>
                 </div>
 
