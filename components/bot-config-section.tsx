@@ -18,7 +18,6 @@ function BotConfigSection() {
 
     useEffect(() => {
          fetchUserId().then(setUserId)
-        console.log(userId)
     }, []);
 
     useEffect(() => {
