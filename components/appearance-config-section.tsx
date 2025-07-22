@@ -25,9 +25,11 @@ function AppearanceConfigSection({botId}) {
         setBotSize(config.size)
         setDefaultMessages(config.default_messages)
         setChatColor(config.chat_color)
+        setIsChatLoading(false)
     }
 
     useEffect(() => {
+        setIsChatLoading(true)
         getAppearanceConfig().then((config) => {
             console.log(config.appearance_settings)
             setAppearanceConfig(config.appearance_settings)
@@ -36,8 +38,7 @@ function AppearanceConfigSection({botId}) {
         })
     }, []);
 
-
-
+    const [isChatloading, setIsChatLoading] = useState(false)
     const [appearanceColor, setAppearanceColor] = useState('#000000')
     const [companyName, setCompanyName] = useState('Company Name')
     const [chatbotName, setChatbotName] = useState('AI Assistant')
@@ -84,7 +85,7 @@ function AppearanceConfigSection({botId}) {
         <div className='col-span-3 flex flex-col border rounded-md shadow-sm pt-5 h-fit sticky top-0 '>
             <div className='text-lg px-5 font-light'>Preview</div>
                 <div className='min-h-[700px] flex-1  bg-gray-50 rounded-sm mt-4 relative'>
-                    <PreviewChat appearanceColor={appearanceColor} companyName={companyName} chatbotName={chatbotName}
+                    <PreviewChat chatLoading={isChatloading} appearanceColor={appearanceColor} companyName={companyName} chatbotName={chatbotName}
                                  welcomeMessages={welcomeMessages} botPlacement={botPlacement} botSize={botSize}
                                  defaultMessages={defaultMessages} chatColor={chatColor}/>
                 </div>

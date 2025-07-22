@@ -109,7 +109,22 @@ function DashboardPage() {
 
             </div>
             {allUserBots === 0 && <div> you havent created any bots </div>}
-            {allUserBots && allUserBots.map(eachBot => <Link href={`/dashboard/${eachBot.botId}`}>{eachBot.botId}</Link>)}
+            <div className='grid grid-cols-2 gap-4 py-4'>
+            {allUserBots && allUserBots.map(eachBot => <Link href={`/dashboard/${eachBot.botId}`} className='px-5 py-6 rounded-md block col-span-1 border bg-blue-100 hover:bg-blue-50 transition-colors'>
+                <div>
+                    <div className='text-xs text-gray-500'>Bot Name</div>
+                    <div>{eachBot.appearance_settings.chatbot_name}</div>
+                </div>
+                <div>
+                    <div className='text-xs text-gray-500 mt-5'>Company Name</div>
+                    <div>{eachBot.appearance_settings.company_name}</div>
+                </div>
+
+                <div className='text-gray-400 text-sm text-center mt-10'>
+                    click to manage
+                </div>
+            </Link>)}
+            </div>
 
 
         </div>

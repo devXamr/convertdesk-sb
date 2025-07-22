@@ -1,6 +1,6 @@
 'use client'
 import React, {useEffect, useState} from 'react';
-import {MessageSquareDot, Send} from "lucide-react";
+import {Loader, MessageSquareDot, Send} from "lucide-react";
 import AiMessage from "@/components/ai-message";
 import Image from 'next/image'
 import logo from '../public/convertdesklogo.png'
@@ -18,7 +18,7 @@ function getTextColor(backgroundColor: string): string {
     return luminance < 128 ? '#FFFFFF' : '#000000';
 }
 
-function PreviewChat({appearanceColor, chatbotName, companyName, defaultMessages, welcomeMessages, chatColor, botPlacement, botSize}) {
+function PreviewChat({chatLoading, appearanceColor, chatbotName, companyName, defaultMessages, welcomeMessages, chatColor, botPlacement, botSize}) {
     const [chatIconClicked, setChatIconClicked] = useState(true)
     const [textColor, setTextColor] = useState(() => getTextColor(chatColor))
 
@@ -90,7 +90,9 @@ function PreviewChat({appearanceColor, chatbotName, companyName, defaultMessages
 
 
     return (
-        <div className={`absolute ${botPlacement === 'bottom-right' ? 'right-2' : 'left-2'} bottom-2`}>
+        <div>
+            {chatLoading && <div className='mx-auto w-fit mt-10'><Loader/></div>}
+        {!chatLoading && <div className={`absolute ${botPlacement === 'bottom-right' ? 'right-2' : 'left-2'} bottom-2`}>
             {chatIconClicked && <div className={`bottom-14 flex flex-col relative ${botSize === 'large' && 'h-[600px] w-[450px]'} ${botSize === 'medium' && 'h-[500px] w-[400px]'} ${botSize === 'small' && 'h-[400px] w-[300px]'} bg-gray-50 border-gray-300 shadow-sm rounded-md border`}>
                 <div className='flex py-2 px-2 items-center gap-4' style={{backgroundColor: appearanceColor}}>
                     <div className='rounded-full w-10 h-10 bg-black'></div>
@@ -123,8 +125,10 @@ function PreviewChat({appearanceColor, chatbotName, companyName, defaultMessages
                 <div className='text-center text-xs py-1 text-gray-500 font-light flex items-center justify-center'><Image src={logo} className='w-6'/>powered by ConvertDesk</div>
             </div>}
             <div style={{backgroundColor: appearanceColor}} onClick={() => setChatIconClicked(prev => !prev)} className={`rounded-full px-3 py-3 text-white absolute transition-all ${botPlacement === 'bottom-right' ? 'bottom-0 right-0' : 'bottom-0 left-0'}`}><div><MessageSquareDot/></div></div>
+        </div>}
         </div>
     );
+
 }
 
 export default PreviewChat;
