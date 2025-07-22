@@ -14,7 +14,7 @@ function DashboardPage() {
     const nav = useRouter()
     const [userSession, setUserSession] = useState(null)
     const [userBotCount, setUserBotCount] = useState<number>(null)
-    const [error, setError] = useState(0)
+    const [error, setError] = useState(false)
     const [allUserBots, setAllUserBots] = useState(null)
 
     const supabase = createClient()
@@ -55,10 +55,13 @@ function DashboardPage() {
     }
 
     useEffect(() => {
-        setTimeout(() => {
-            setError(0)
-        }, 3000)
-    }, [setError]);
+        if(error){
+            setTimeout(() => {
+                setError(false)
+            }, 3000)
+        }
+
+    }, [error]);
 
     function handleRouting(){
         // check the count of bots this user has
@@ -67,7 +70,7 @@ function DashboardPage() {
 
         //will change the limit here once the rate limits are set.
         if(userBotCount > 0){
-            setError(1)
+            setError(true)
             return
         }
 
@@ -97,11 +100,11 @@ function DashboardPage() {
                     <div className='text-xl font-medium'>Your Chatbots</div>
                     <div className='text-gray-600 dark:text-gray-200'>Create and manage your chatbots</div>
                 </div>
-                <div>
+                <div className='relative'>
                 <Button onClick={handleRouting}
                         className='bg-gray-600 block h-fit px-4 py-2 rounded-sm border border-gray-500 hover:bg-gray-400 text-sm'>Create
                     Bot</Button>
-                    {error === 1 && <div className='text-red-600 bg-red-200 border border-red-400 rounded-md px-5 py-3'>You have created the maximum number of bots allowed on your account, upgrade for more.</div>}
+                    {error && <div className='top-10 w-[400px] text-sm absolute text-red-600 bg-red-200 border border-red-400 rounded-md px-5 py-3'>You have created the maximum number of bots allowed on your account, upgrade for more.</div>}
                 </div>
 
             </div>

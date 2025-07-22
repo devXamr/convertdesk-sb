@@ -1,15 +1,50 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import PreviewChat from "@/components/preview-chat";
 import AppearanceSettings from "@/components/appearance-settings";
+import {createClient} from "@/lib/supabase/client";
 
-function AppearanceConfigSection() {
+function AppearanceConfigSection({botId}) {
+
+    //a setter function and a getter function will be needed in the children of this component, give the setter to the settings panel and the getter to the preview.
+    const supabase = createClient()
+    async function getAppearanceConfig(){
+        const config = await supabase.from('user_bots').select("appearance_settings").eq("botId", botId)
+        return config.data[0]
+    }
+
+    const [appearanceConfig, setAppearanceConfig] = useState(null)
+
+    function handleInitialSettings(config) {
+        setAppearanceColor(config.primary_color)
+        setCompanyName(config.company_name)
+        setChatbotName(config.chatbot_name)
+
+        console.log("Config welcome messages: ", config.welcome_messages )
+        setWelcomeMessages(config.welcome_messages)
+        setBotPlacement(config.placement)
+        setBotSize(config.size)
+        setDefaultMessages(config.default_messages)
+        setChatColor(config.chat_color)
+    }
+
+    useEffect(() => {
+        getAppearanceConfig().then((config) => {
+            console.log(config.appearance_settings)
+            setAppearanceConfig(config.appearance_settings)
+            handleInitialSettings(config.appearance_settings)
+
+        })
+    }, []);
+
+
+
     const [appearanceColor, setAppearanceColor] = useState('#000000')
     const [companyName, setCompanyName] = useState('Company Name')
     const [chatbotName, setChatbotName] = useState('AI Assistant')
     const [welcomeMessages, setWelcomeMessages] = useState<string[]>(['Hey there! How can I help you?', `you can ask me anything you want about ${companyName}`])
 
-    //can be either 'right' or 'left'.
-    const [botPlacement, setBotPlacement] = useState('right')
+    //can be either 'bottom-right' or 'bottom-left'.
+    const [botPlacement, setBotPlacement] = useState('bottom-right')
 
     // can be small, medium or large.
     const [botSize, setBotSize] = useState('medium')
@@ -18,7 +53,22 @@ function AppearanceConfigSection() {
 
     const [chatColor, setChatColor] = useState('#000000')
 
+    async function handleChanges(){
+        const config = {
+            "size": botSize,
+            "placement": botPlacement,
+            "chat_color": chatColor,
+            "chatbot_name": chatbotName,
+            "company_name": companyName,
+            "primary_color": appearanceColor,
+            "default_messages": defaultMessages,
+            "welcome_messages": welcomeMessages
 
+        }
+        const syncSupabase = await supabase.from('user_bots').update({'appearance_settings': config}).eq("botId", botId)
+        handleInitialSettings(config)
+
+    }
 
     return (
         <div className='py-10'>
@@ -48,7 +98,7 @@ function AppearanceConfigSection() {
                                     botPlacement={botPlacement} setBotPlacement={setBotPlacement} botSize={botSize}
                                     setBotSize={setBotSize} defaultMessages={defaultMessages}
                                     setDefaultMessages={setDefaultMessages} chatColor={chatColor}
-                                    setChatColor={setChatColor}/>
+                                    setChatColor={setChatColor} onSaveClickFunc={handleChanges}/>
 
             </div>
 

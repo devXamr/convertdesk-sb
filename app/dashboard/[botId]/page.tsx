@@ -6,9 +6,11 @@ import AppearanceSettings from "@/components/appearance-settings";
 import AppearanceConfigSection from "@/components/appearance-config-section";
 import {Dropzone} from "@/components/dropzone";
 import BotConfigSection from "@/components/bot-config-section";
+import {useParams} from "next/navigation";
 
 
 function CreateBotPage() {
+    const {botId} = useParams()
     const [currentSettingsPage, setCurrentSettingsPage] = useState('config')
 
 
@@ -27,7 +29,7 @@ function CreateBotPage() {
             </div>
 
             {currentSettingsPage === 'appearance' && <div>
-                <AppearanceConfigSection/>
+                <AppearanceConfigSection botId={botId}/>
             </div>}
 
             {currentSettingsPage === 'config' &&
@@ -37,7 +39,7 @@ function CreateBotPage() {
                         preferences.
                     </div>
                     <div className='mt-3 py-10 px-10 rounded-md shadow-sm border'>
-                        <BotConfigSection/>
+                        <BotConfigSection botId={botId}/>
                     </div>
                     <button
                         className='block mx-auto mt-10 px-5 py-3 bg-black text-white rounded-sm mb-10 text-lg'>Create

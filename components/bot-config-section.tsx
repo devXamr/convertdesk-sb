@@ -6,7 +6,7 @@ import axios from "axios";
 
 
 
-function BotConfigSection() {
+function BotConfigSection({botId}) {
     const [userId, setUserId] = useState(null)
     const [storedFileInfo, setStoredFileInfo] = useState([])
     const [storageConsumed, setStorageConsumed] = useState<number>()

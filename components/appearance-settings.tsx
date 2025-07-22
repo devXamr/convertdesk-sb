@@ -2,7 +2,7 @@
 import React, {useEffect, useState} from 'react';
 import {X} from "lucide-react";
 
-function AppearanceSettings({chatColor, setChatColor, setAppearanceColor, appearanceColor, chatbotName, setChatbotName, setCompanyName, companyName, setWelcomeMessages, welcomeMessages, setDefaultMessages, defaultMessages, botPlacement, setBotPlacement, botSize, setBotSize}) {
+function AppearanceSettings({chatColor, onSaveClickFunc, setChatColor, setAppearanceColor, appearanceColor, chatbotName, setChatbotName, setCompanyName, companyName, setWelcomeMessages, welcomeMessages, setDefaultMessages, defaultMessages, botPlacement, setBotPlacement, botSize, setBotSize}) {
 
     const [currentWelcomeMessage, setCurrentWelcomeMessage] = useState('')
     const [currentDefaultMessage, setCurrentDefaultMessage] = useState('')
@@ -113,12 +113,12 @@ function AppearanceSettings({chatColor, setChatColor, setAppearanceColor, appear
 
                 <div className='w-full h-10 flex'>
                     <div
-                        className={`px-6 py-3 text-sm transition-colors cursor-pointer ${botPlacement === 'left' ? 'bg-gray-900 text-white' : 'bg-gray-50'} rounded-l-md w-1/2 text-center`}
-                        onClick={() => setBotPlacement('left')}>Bottom Left
+                        className={`px-6 py-3 text-sm transition-colors cursor-pointer ${botPlacement === 'bottom-left' ? 'bg-gray-900 text-white' : 'bg-gray-50'} rounded-l-md w-1/2 text-center`}
+                        onClick={() => setBotPlacement('bottom-left')}>Bottom Left
                     </div>
                     <div
-                        className={`px-6 py-3 text-sm transition-colors cursor-pointer ${botPlacement === 'right' ? 'bg-gray-900 text-white' : 'bg-gray-50'} bg-gray-200 rounded-r-md w-1/2 text-center`}
-                        onClick={() => setBotPlacement('right')}>Bottom Right
+                        className={`px-6 py-3 text-sm transition-colors cursor-pointer ${botPlacement === 'bottom-right' ? 'bg-gray-900 text-white' : 'bg-gray-50'} bg-gray-200 rounded-r-md w-1/2 text-center`}
+                        onClick={() => setBotPlacement('bottom-right')}>Bottom Right
                     </div>
 
                 </div>
@@ -182,7 +182,7 @@ function AppearanceSettings({chatColor, setChatColor, setAppearanceColor, appear
             </button>
 
 
-            <button className=' hover:bg-black/80 block mt-7 bg-black px-4 py-3 rounded-md text-sm w-full text-white'>
+            <button onClick={onSaveClickFunc} className=' hover:bg-black/80 block mt-7 bg-black px-4 py-3 rounded-md text-sm w-full text-white'>
                 Save Changes
             </button>
         </div>
