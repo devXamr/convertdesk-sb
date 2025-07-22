@@ -8,11 +8,33 @@ import axios from "axios";
 
 function BotConfigSection() {
     const [userId, setUserId] = useState(null)
+    const [storedFileInfo, setStoredFileInfo] = useState([])
+    const [storageConsumed, setStorageConsumed] = useState<number>()
+
+    const supabase = createClient()
+
+    function totalConsumed(){
+        let total = 0
+        storedFileInfo.map(each => total += Math.floor(each.metadata.size / 1024))
+        setStorageConsumed(total)
+    }
+
+    useEffect(() => {
+        if(storedFileInfo.length > 0){
+            totalConsumed()
+        }
+    }, [storedFileInfo]);
 
     async function fetchUserId(){
-        const supabase = createClient()
         const currentsession = await supabase.auth.getSession()
         return currentsession.data.session?.user.id
+
+    }
+
+    async function fetchStoredFiles(){
+        const storedContext = await supabase.storage.from('botdescriptions').list(`${userId}/`)
+        console.log('here are the files stored in the context for this chatbot:', storedContext.data)
+        return storedContext.data
 
     }
 
@@ -21,11 +43,16 @@ function BotConfigSection() {
     }, []);
 
     useEffect(() => {
-        console.log(userId)
+        if(userId) {
+            fetchStoredFiles().then(setStoredFileInfo)
+        }
     }, [userId]);
 
 
 
+    useEffect(() => {
+        console.log(userId)
+    }, [userId]);
 
     // add this later to the supported types: 'application/pdf'
     const props = useSupabaseUpload({
@@ -70,7 +97,7 @@ function BotConfigSection() {
                     </div>*/}
 
             <div className='text-lg'>Knowledge Base</div>
-            <div className=' mb-3 text-gray-600 text-sm'>Please submit files describing your business or answering common questions below. (only .docx, .text and .pdf extensions supported.)
+            <div className=' mb-3 text-gray-600 text-sm'>Please submit files describing your business or answering common questions below. (only .docx, .text extensions supported.)
             </div>
 
             <Dropzone {...props}>
@@ -78,7 +105,34 @@ function BotConfigSection() {
                 <DropzoneContent/>
             </Dropzone>
 
-            <div className='mt-5 text-gray-600 text-sm'>Is there anything else you would like to include about your business?
+            <div className='mt-5'>
+                <div className='my-4'>
+                    <div className='text-sm'>total storage consumed:</div>
+                    <div className='text-sm text-gray-600'>{storageConsumed} / 400kb</div>
+                </div>
+                <div className='text-sm text-gray-600'>Files Currently Stored:</div>
+                <div className='w-full'>
+                    {storedFileInfo.length > 0 && storedFileInfo.map(each => <div className='flex justify-between py-3 border px-4 items-center rounded-md border-gray-200 border-dashed'>
+                        <div className='text-md'>{each.name}</div>
+
+                        <div className='flex gap-4'>
+                            <div>
+                                <div className='text-sm text-gray-500'>last updated</div>
+                                <div className='text-sm'>{each.updated_at.slice(0, 10).replaceAll('-', '/')}</div>
+                            </div>
+                            <div>
+                                <div className='text-sm text-gray-500'>file size</div>
+                                {/* converting the size to kbs*/}
+                                <div className='text-sm'>{Math.floor(each.metadata.size / 1024)}KB</div>
+                            </div>
+
+                        </div>
+                    </div>)}
+                </div>
+            </div>
+
+            <div className='mt-5 text-gray-600 text-sm'>Is there anything else you would like to include about your
+                business?
             </div>
 
             <textarea className='w-full min-h-[100px] bg-gray-50 border px-2 py-2 text-gray-800'/>

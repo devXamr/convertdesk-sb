@@ -1,9 +1,10 @@
-import { redirect } from "next/navigation";
-
+import {redirect} from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { InfoIcon } from "lucide-react";
 import { FetchDataSteps } from "@/components/tutorial/fetch-data-steps";
 import Link from "next/link";
+import {Button} from "@/components/ui/button";
+import DashboardPage from "@/components/dashboard-page";
 
 export default async function ProtectedPage() {
   const supabase = await createClient();
@@ -28,13 +29,8 @@ export default async function ProtectedPage() {
 
   return (
     <div className='mt-10'>
-      <div className='flex justify-between'>
-      <div>
-      <div className='text-xl font-medium'>Your Chatbots</div>
-      <div className='text-gray-600 dark:text-gray-200'>Create and manage your chatbots</div>
-      </div>
-      <Link href='/dashboard/create-bot' className='bg-gray-200 h-fit px-4 py-2 rounded-sm border border-gray-300 hover:bg-gray-100 text-sm'>Create Bot</Link>
-      </div>
+      <DashboardPage/>
+
       </div>
   );
 }
