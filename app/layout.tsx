@@ -42,9 +42,18 @@ export default function RootLayout({
 
     </ThemeProvider>
     <Script
-        src="/my-widget.js"
         strategy="afterInteractive"
-    />
+        id="chatbot-embed"
+    >
+      {`
+    const script = document.createElement('script');
+    script.src = '/my-widget.js';
+    script.onload = () => {
+      window.ConvertDeskChatbot?.init({ botId: "f0817b8c-ff15-4fbd-942e-852fbe10baa7" });
+    };
+    document.body.appendChild(script);
+  `}
+    </Script>
 
     </body>
     </html>
