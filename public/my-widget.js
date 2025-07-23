@@ -1,175 +1,223 @@
 (function () {
-    console.log("ConvertDesk chat widget loaded!");
+    console.log("ConvertDesk widget loaded!");
 
-    const defaults = {
-        botSize: 'large', // small | medium | large
-        appearanceColor: '#007bff',
-        companyName: 'ConvertDesk',
-        chatbotName: 'AI Assistant',
-        chatColor: '#333',
+    const DEFAULT_SETTINGS = {
+        botSize: "medium",
+        placement: "bottom-right",
+        appearanceColor: "#0d0872",
+        chatbotName: "AI Bot",
+        companyName: "ConvertDesk",
+        chatColor: "#10B981",
         welcomeMessages: [
             "Hey there! How can I help you?",
-            "You can ask me anything you want about ConvertDesk."
+            "You can ask me anything about ConvertDesk.",
         ],
         defaultMessages: [
             "Tell me about ConvertDesk",
-            "What are the services of ConvertDesk?"
-        ]
+            "What are the services of ConvertDesk?",
+        ],
     };
 
-    // Chat bubble
+    // Create chat bubble
     const bubble = document.createElement("div");
     bubble.textContent = "💬";
     bubble.style.position = "fixed";
     bubble.style.bottom = "20px";
-    bubble.style.right = "20px";
-    bubble.style.width = "50px";
-    bubble.style.height = "50px";
-    bubble.style.backgroundColor = defaults.appearanceColor;
+    bubble.style[DEFAULT_SETTINGS.placement.includes("left") ? "left" : "right"] =
+        "20px";
+    bubble.style.padding = "12px";
+    bubble.style.backgroundColor = DEFAULT_SETTINGS.appearanceColor;
     bubble.style.color = "#fff";
     bubble.style.borderRadius = "50%";
     bubble.style.cursor = "pointer";
-    bubble.style.display = "flex";
-    bubble.style.justifyContent = "center";
-    bubble.style.alignItems = "center";
     bubble.style.boxShadow = "0 2px 6px rgba(0,0,0,0.3)";
     bubble.style.zIndex = "1000";
+    bubble.style.textAlign = "center";
+
     document.body.appendChild(bubble);
 
-    // Chat window
+    // Create chat window (hidden by default)
     const chatWindow = document.createElement("div");
     chatWindow.style.position = "fixed";
     chatWindow.style.bottom = "80px";
-    chatWindow.style.right = "20px";
-    chatWindow.style.backgroundColor = "#f9f9f9";
-    chatWindow.style.border = "1px solid #ccc";
-    chatWindow.style.borderRadius = "8px";
-    chatWindow.style.boxShadow = "0 2px 6px rgba(0,0,0,0.3)";
+    chatWindow.style[DEFAULT_SETTINGS.placement.includes("left") ? "left" : "right"] =
+        "20px";
+    chatWindow.style.width =
+        DEFAULT_SETTINGS.botSize === "large"
+            ? "450px"
+            : DEFAULT_SETTINGS.botSize === "small"
+                ? "300px"
+                : "400px";
+    chatWindow.style.height =
+        DEFAULT_SETTINGS.botSize === "large"
+            ? "600px"
+            : DEFAULT_SETTINGS.botSize === "small"
+                ? "400px"
+                : "500px";
+    chatWindow.style.backgroundColor = "#f9fafb";
+    chatWindow.style.border = "1px solid #d1d5db";
+    chatWindow.style.borderRadius = "6px";
+    chatWindow.style.display = "none";
+    chatWindow.style.flexDirection = "column";
+    chatWindow.style.boxShadow = "0 4px 10px rgba(0,0,0,0.2)";
     chatWindow.style.zIndex = "1000";
     chatWindow.style.overflow = "hidden";
-    chatWindow.style.display = "none";
-
-    if (defaults.botSize === "large") {
-        chatWindow.style.width = "450px";
-        chatWindow.style.height = "600px";
-    } else if (defaults.botSize === "small") {
-        chatWindow.style.width = "300px";
-        chatWindow.style.height = "400px";
-    } else {
-        chatWindow.style.width = "400px";
-        chatWindow.style.height = "500px";
-    }
-
-    chatWindow.innerHTML = `
-        <div style="background:${defaults.appearanceColor}; color:white; padding:10px; display:flex; align-items:center; gap:10px;">
-            <div style="width:40px; height:40px; background:black; border-radius:50%;"></div>
-            <div>${defaults.companyName}</div>
-        </div>
-
-        <div id="chat-content" style="height:calc(100% - 110px); overflow-y:auto; padding:10px;"></div>
-
-        <form id="chat-form" style="display:flex; border-top:1px solid #ddd;">
-            <input type="text" id="chat-input" placeholder="Type your message…" style="flex:1; padding:10px; border:none; outline:none;" />
-            <button type="submit" style="background:white; color:gray; padding:0 15px; border:none; cursor:pointer;">➤</button>
-        </form>
-
-        <div style="text-align:center; font-size:12px; color:#666; padding:5px;">powered by ConvertDesk</div>
-    `;
 
     document.body.appendChild(chatWindow);
 
-    const chatContent = chatWindow.querySelector("#chat-content");
-    const chatForm = chatWindow.querySelector("#chat-form");
-    const chatInput = chatWindow.querySelector("#chat-input");
+    // Header
+    const header = document.createElement("div");
+    header.style.backgroundColor = DEFAULT_SETTINGS.appearanceColor;
+    header.style.color = "#fff";
+    header.style.padding = "10px";
+    header.textContent =
+        DEFAULT_SETTINGS.chatbotName + " - " + DEFAULT_SETTINGS.companyName;
+    chatWindow.appendChild(header);
 
-    // Add welcome messages
-    defaults.welcomeMessages.forEach(msg => {
-        const div = document.createElement("div");
-        div.style.margin = "5px 0";
-        div.style.color = defaults.chatColor;
-        div.textContent = `${defaults.chatbotName}: ${msg}`;
-        chatContent.appendChild(div);
+    // Messages area
+    const messagesContainer = document.createElement("div");
+    messagesContainer.style.flex = "1";
+    messagesContainer.style.overflowY = "auto";
+    messagesContainer.style.padding = "8px";
+    chatWindow.appendChild(messagesContainer);
+
+    // Welcome messages
+    DEFAULT_SETTINGS.welcomeMessages.forEach((msg) => {
+        const aiMsg = document.createElement("div");
+        aiMsg.style.marginTop = "8px";
+        aiMsg.style.marginLeft = "4px";
+        aiMsg.style.fontSize = "12px";
+        aiMsg.style.color = "gray";
+        aiMsg.textContent = DEFAULT_SETTINGS.chatbotName;
+        messagesContainer.appendChild(aiMsg);
+
+        const aiBubble = document.createElement("div");
+        aiBubble.style.fontSize = "14px";
+        aiBubble.style.padding = "8px 12px";
+        aiBubble.style.backgroundColor = "#f3f4f6";
+        aiBubble.style.color = "#374151";
+        aiBubble.style.borderRadius = "4px";
+        aiBubble.style.maxWidth = "70%";
+        aiBubble.style.width = "fit-content";
+        aiBubble.textContent = msg;
+        messagesContainer.appendChild(aiBubble);
     });
 
-    // Add default suggestions
-    if (defaults.defaultMessages.length > 0) {
-        const suggestions = document.createElement("div");
-        suggestions.style.display = "flex";
-        suggestions.style.flexWrap = "wrap";
-        suggestions.style.gap = "5px";
-        suggestions.style.marginTop = "10px";
+    // Default suggestion buttons
+    const suggestionContainer = document.createElement("div");
+    suggestionContainer.style.display = "flex";
+    suggestionContainer.style.flexWrap = "wrap";
+    suggestionContainer.style.gap = "4px";
+    suggestionContainer.style.padding = "4px";
+    DEFAULT_SETTINGS.defaultMessages.forEach((msg) => {
+        const btn = document.createElement("div");
+        btn.textContent = msg;
+        btn.style.fontSize = "12px";
+        btn.style.padding = "4px 8px";
+        btn.style.backgroundColor = "#e5e7eb";
+        btn.style.color = "#374151";
+        btn.style.borderRadius = "4px";
+        btn.style.cursor = "pointer";
+        suggestionContainer.appendChild(btn);
 
-        defaults.defaultMessages.forEach(msg => {
-            const button = document.createElement("button");
-            button.textContent = msg;
-            button.style.fontSize = "12px";
-            button.style.padding = "3px 8px";
-            button.style.border = "1px solid #ccc";
-            button.style.borderRadius = "5px";
-            button.style.background = "#eee";
-            button.style.cursor = "pointer";
-            button.addEventListener("click", () => {
-                chatInput.value = msg;
-                chatInput.focus();
-            });
-            suggestions.appendChild(button);
+        btn.addEventListener("click", () => {
+            messageInput.value = msg;
         });
+    });
+    chatWindow.appendChild(suggestionContainer);
 
-        chatContent.appendChild(suggestions);
+    // Input
+    const form = document.createElement("form");
+    form.style.display = "flex";
+    form.style.borderTop = "1px solid #d1d5db";
+    const messageInput = document.createElement("input");
+    messageInput.placeholder = "Type your message here…";
+    messageInput.style.flex = "1";
+    messageInput.style.padding = "10px";
+    messageInput.style.border = "none";
+    messageInput.style.outline = "none";
+    const sendBtn = document.createElement("button");
+    sendBtn.type = "submit";
+    sendBtn.textContent = "Send";
+    sendBtn.style.background = "#fff";
+    sendBtn.style.color = "#6b7280";
+    sendBtn.style.padding = "0 12px";
+    form.appendChild(messageInput);
+    form.appendChild(sendBtn);
+    chatWindow.appendChild(form);
+
+    const footer = document.createElement("div");
+    footer.style.textAlign = "center";
+    footer.style.fontSize = "12px";
+    footer.style.padding = "4px 0";
+    footer.style.color = "#6b7280"; // Tailwind text-gray-500
+    footer.style.fontWeight = "300";
+    footer.style.display = "flex";
+    footer.style.justifyContent = "center";
+    footer.style.alignItems = "center";
+    footer.innerHTML = `
+    <img src="/convertdesklogo.png" alt="convertdesk logo" style="width: 24px; margin-right: 4px;" />
+    powered by ConvertDesk
+`;
+
+    chatWindow.appendChild(footer);
+
+    function clearSuggestionsAndWelcome() {
+        suggestionContainer.style.display = "none";
     }
 
-    // Form submission
-    chatForm.addEventListener("submit", e => {
-        e.preventDefault();
-        const message = chatInput.value.trim();
-        if (!message) return;
-
-        const userDiv = document.createElement("div");
-        userDiv.style.margin = "5px 0";
-        userDiv.style.textAlign = "right";
-        userDiv.style.color = defaults.chatColor;
-        userDiv.textContent = `You: ${message}`;
-        chatContent.appendChild(userDiv);
-
-        chatInput.value = "";
-
-        chatContent.scrollTop = chatContent.scrollHeight;
-
-        setTimeout(() => {
-            const wrapper = document.createElement("div");
-
-            const nameDiv = document.createElement("div");
-            nameDiv.textContent = defaults.chatbotName;
-            nameDiv.style.fontSize = "12px";
-            nameDiv.style.marginLeft = "4px";
-            nameDiv.style.marginTop = "12px";
-            nameDiv.style.color = "#6B7280"; // text-gray-500
-            nameDiv.style.fontWeight = "300"; // font-light
-            wrapper.appendChild(nameDiv);
-
-            const msgDiv = document.createElement("div");
-            msgDiv.textContent = `Thanks for your message!`;
-            msgDiv.style.fontSize = "14px";
-            msgDiv.style.padding = "8px 16px";
-            msgDiv.style.backgroundColor = "#F3F4F6"; // bg-gray-100
-            msgDiv.style.borderTopRightRadius = "4px";
-            msgDiv.style.borderBottomRightRadius = "4px";
-            msgDiv.style.color = "#374151"; // text-gray-700
-            msgDiv.style.maxWidth = "70%";
-            msgDiv.style.display = "inline-block";
-            msgDiv.style.marginTop = "4px";
-            wrapper.appendChild(msgDiv);
-
-            chatContent.appendChild(wrapper);
-
-            chatContent.scrollTop = chatContent.scrollHeight;
-        }, 500);
+    // Bubble click toggles chat
+    bubble.addEventListener("click", () => {
+        chatWindow.style.display =
+            chatWindow.style.display === "none" ? "flex" : "none";
     });
 
-    let isOpen = false;
+    // Handle user message submit
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const msg = messageInput.value.trim();
+        if (!msg) return;
 
-    bubble.addEventListener("click", () => {
-        isOpen = !isOpen;
-        chatWindow.style.display = isOpen ? "block" : "none";
+        clearSuggestionsAndWelcome();
+
+        // user message
+        const userBubble = document.createElement("div");
+        userBubble.style.fontSize = "14px";
+        userBubble.style.padding = "8px 12px";
+        userBubble.style.marginTop = "8px";
+        userBubble.style.backgroundColor = DEFAULT_SETTINGS.chatColor;
+        userBubble.style.color = "#fff";
+        userBubble.style.borderRadius = "4px";
+        userBubble.style.maxWidth = "70%";
+        userBubble.style.width = "fit-content";
+        userBubble.style.marginLeft = "auto";
+        userBubble.textContent = msg;
+        messagesContainer.appendChild(userBubble);
+
+        messageInput.value = "";
+
+        // mock AI reply
+        setTimeout(() => {
+            const aiMsg = document.createElement("div");
+            aiMsg.style.marginTop = "8px";
+            aiMsg.style.marginLeft = "4px";
+            aiMsg.style.fontSize = "12px";
+            aiMsg.style.color = "gray";
+            aiMsg.textContent = DEFAULT_SETTINGS.chatbotName;
+            messagesContainer.appendChild(aiMsg);
+
+            const aiBubble = document.createElement("div");
+            aiBubble.style.fontSize = "14px";
+            aiBubble.style.padding = "8px 12px";
+            aiBubble.style.backgroundColor = "#f3f4f6";
+            aiBubble.style.color = "#374151";
+            aiBubble.style.borderRadius = "4px";
+            aiBubble.style.maxWidth = "70%";
+            aiBubble.style.width = "fit-content";
+            aiBubble.textContent = "This is a mock reply.";
+            messagesContainer.appendChild(aiBubble);
+        }, 1000);
     });
 })();
+
+
