@@ -18,7 +18,7 @@ function getTextColor(backgroundColor: string): string {
     return luminance < 128 ? '#FFFFFF' : '#000000';
 }
 
-function PreviewChat({chatLoading, appearanceColor, chatbotName, companyName, defaultMessages, welcomeMessages, chatColor, botPlacement, botSize}) {
+function PreviewChat({botId, chatLoading, appearanceColor, chatbotName, companyName, defaultMessages, welcomeMessages, chatColor, botPlacement, botSize}) {
     const [chatIconClicked, setChatIconClicked] = useState(true)
     const [textColor, setTextColor] = useState(() => getTextColor(chatColor))
 
@@ -69,7 +69,7 @@ function PreviewChat({chatLoading, appearanceColor, chatbotName, companyName, de
 
     async function handleAIResponse(){
         console.log("The process has reached the AI CALL")
-        const data = await axios.post('/api/query', {user_id: userId, question: currentUserMessage })
+        const data = await axios.post('/api/query', {user_id: userId, question: currentUserMessage, botId: botId })
         console.log("here's the data that was returned", data.data.answer)
         setAllMessages(prev => [...prev, {sender: 'AI', message: data.data.answer}])
     }

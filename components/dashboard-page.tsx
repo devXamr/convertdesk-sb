@@ -69,7 +69,9 @@ function DashboardPage() {
         // else continue.
 
         //will change the limit here once the rate limits are set.
-        if(userBotCount > 0){
+
+        // todo: change this limit back to 1 bot only at the end.
+        if(userBotCount > 1){
             setError(true)
             return
         }

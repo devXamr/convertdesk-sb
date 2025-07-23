@@ -9,7 +9,7 @@ import axios from "axios";
 function BotConfigSection({botId}) {
     const [userId, setUserId] = useState(null)
     const [storedFileInfo, setStoredFileInfo] = useState([])
-    const [storageConsumed, setStorageConsumed] = useState<number>()
+    const [storageConsumed, setStorageConsumed] = useState<number>(0)
 
     const supabase = createClient()
 
@@ -32,10 +32,9 @@ function BotConfigSection({botId}) {
     }
 
     async function fetchStoredFiles(){
-        const storedContext = await supabase.storage.from('botdescriptions').list(`${userId}/`)
+        const storedContext = await supabase.storage.from('botdescriptions').list(`${userId}/${botId}`)
         console.log('here are the files stored in the context for this chatbot:', storedContext.data)
         return storedContext.data
-
     }
 
     useEffect(() => {
@@ -48,8 +47,6 @@ function BotConfigSection({botId}) {
         }
     }, [userId]);
 
-
-
     useEffect(() => {
         console.log(userId)
     }, [userId]);
@@ -57,7 +54,7 @@ function BotConfigSection({botId}) {
     // add this later to the supported types: 'application/pdf'
     const props = useSupabaseUpload({
         bucketName: 'botdescriptions',
-        path: userId,
+        path: `${userId}/${botId}`,
         allowedMimeTypes: ['text/plain',
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document'],
         maxFiles: 1,
@@ -80,7 +77,7 @@ function BotConfigSection({botId}) {
     async function sendEmbedRequest(){
         console.log(`${userId} is the user_id`)
         console.log(`${props.acceptedFiles[0].path} is the filePath being called` )
-       const embedded = await axios.post('/api/process', {user_id: userId, filePath: `${userId}/${props.acceptedFiles[0].name}`})
+       const embedded = await axios.post('/api/process', {user_id: userId, filePath: `${userId}/${botId}/${props.acceptedFiles[0].name}`, botId: botId})
        console.log(embedded.data)
     }
 
@@ -128,6 +125,7 @@ function BotConfigSection({botId}) {
 
                         </div>
                     </div>)}
+                    {storedFileInfo.length < 1 && <div className='text-sm bg-gray-100 py-3 px-3 text-center font-light text-gray-600'>You haven't added any files to your knowledge base yet.</div>}
                 </div>
             </div>
 

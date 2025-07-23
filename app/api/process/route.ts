@@ -40,7 +40,7 @@ export async function POST(req: Request) {
             return new NextResponse(JSON.stringify({ error: "Invalid JSON in request body" }), { status: 400 });
         }
 
-        const { user_id, filePath } = requestBody;
+        const { user_id, filePath, botId } = requestBody;
 
         if (!filePath) {
             return new NextResponse(JSON.stringify({ error: "Missing filePath parameter" }), { status: 400 });
@@ -133,6 +133,7 @@ export async function POST(req: Request) {
                     file_path: filePath,
                     content: chunk,
                     embedding,
+                    bot_id : botId
                 });
 
                 if (insertErr) {

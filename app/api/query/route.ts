@@ -12,7 +12,7 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
 
 export async function POST(req: Request) {
     try {
-        const { user_id, question } = await req.json();
+        const { user_id, question, botId } = await req.json();
 
         if (!user_id || !question) {
             return NextResponse.json({ error: "Missing parameters" }, { status: 400 });
@@ -34,6 +34,7 @@ export async function POST(req: Request) {
             match_threshold: 0.78, // adjust as needed
             match_count: 5,
             user_id,
+            bot_id : botId
         });
 
         if (matchErr) {
@@ -53,7 +54,7 @@ export async function POST(req: Request) {
 
         // todo: add 'suggest other options based on what the user has chosen'
         const prompt = `
-Answer the following question using the context below. Keep the answer short and sweet. Only reply to relevant questions and keep the conversation professional. 
+Answer the following question using the context below. Keep the answer short and sweet. Only reply to relevant questions and keep the conversation professional. Provide the user with helpful guidance.
 
 Context:
 ${context}

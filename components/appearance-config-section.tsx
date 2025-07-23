@@ -85,7 +85,7 @@ function AppearanceConfigSection({botId}) {
         <div className='col-span-3 flex flex-col border rounded-md shadow-sm pt-5 h-fit sticky top-0 '>
             <div className='text-lg px-5 font-light'>Preview</div>
                 <div className='min-h-[700px] flex-1  bg-gray-50 rounded-sm mt-4 relative'>
-                    <PreviewChat chatLoading={isChatloading} appearanceColor={appearanceColor} companyName={companyName} chatbotName={chatbotName}
+                    <PreviewChat botId={botId} chatLoading={isChatloading} appearanceColor={appearanceColor} companyName={companyName} chatbotName={chatbotName}
                                  welcomeMessages={welcomeMessages} botPlacement={botPlacement} botSize={botSize}
                                  defaultMessages={defaultMessages} chatColor={chatColor}/>
                 </div>
