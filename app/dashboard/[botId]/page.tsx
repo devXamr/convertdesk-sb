@@ -1,12 +1,12 @@
 'use client'
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Link from "next/link";
 import PreviewChat from "@/components/preview-chat";
 import AppearanceSettings from "@/components/appearance-settings";
 import AppearanceConfigSection from "@/components/appearance-config-section";
 import {Dropzone} from "@/components/dropzone";
 import BotConfigSection from "@/components/bot-config-section";
-import {useParams} from "next/navigation";
+import {redirect, useParams} from "next/navigation";
 
 
 function CreateBotPage() {
@@ -14,47 +14,14 @@ function CreateBotPage() {
     const [currentSettingsPage, setCurrentSettingsPage] = useState('config')
 
 
+    useEffect(() => {
+        redirect(`/dashboard/${botId}/appearance`)
+    }, []);
+
+
     return (
-        <div className='mt-10'>
-            <Link href='/dashboard'
-                  className='bg-gray-200 block w-fit mb-7 h-fit px-4 py-2 rounded-sm border border-gray-300 hover:bg-gray-100 text-sm'>Back
-                to Dashboard</Link>
-
-
-            <div className='flex gap-4 mx-auto w-fit my-10'>
-                <button className={`${currentSettingsPage === 'appearance' ? 'font-semibold text-black' : 'text-gray-400'} `} onClick={() => setCurrentSettingsPage('appearance')}>Bot Appearance</button>
-                <button className={`${currentSettingsPage === 'config' ? 'font-semibold text-black' : 'text-gray-400'} `} onClick={() => setCurrentSettingsPage('config')}>Bot Configuration</button>
-                <button className={`${currentSettingsPage === 'integrations' ? 'font-semibold text-black' : 'text-gray-400'} `} onClick={() => setCurrentSettingsPage('integrations')}>Integrations</button>
-                <button className={`${currentSettingsPage === 'settings' ? 'font-semibold text-black' : 'text-gray-400'} `} onClick={() => setCurrentSettingsPage('settings')}>Settings</button>
-            </div>
-
-            {currentSettingsPage === 'appearance' && <div>
-                <AppearanceConfigSection botId={botId}/>
-            </div>}
-
-            {currentSettingsPage === 'config' &&
-                <div>
-                    <div className='text-xl font-medium mt-14'>Bot Configuration</div>
-                    <div className='mb-5 text-sm text-gray-500'>Manage the information resources of your bot and other
-                        preferences.
-                    </div>
-                    <div className='mt-3 py-10 px-10 rounded-md shadow-sm border'>
-                        <BotConfigSection botId={botId}/>
-                    </div>
-                    <button
-                        className='block mx-auto mt-10 px-5 py-3 bg-black text-white rounded-sm mb-10 text-lg'>Create
-                        Chatbot
-                    </button>
-
-                </div>}
-
-            {currentSettingsPage === 'integrations' &&  <div>
-                Coming soon..
-            </div>}
-
-            {currentSettingsPage === 'settings' && <div>
-                Coming soon..
-            </div>}
+        <div className='mt-10 mx-auto w-fit'>
+            <div>Loading...</div>
 
 
             {/*<div className='mt-3 py-10 px-10 rounded-md shadow-sm border'>

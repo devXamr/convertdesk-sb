@@ -6,6 +6,7 @@ import { hasEnvVars } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
 import convertDeskBG from '../../public/convertdesklogo.png'
+import React from "react";
 
 export default function ProtectedLayout({
   children,
@@ -31,6 +32,7 @@ export default function ProtectedLayout({
 
 
         <div className='max-w-5xl mx-auto'>
+
           {children}
         </div>
       </div>
