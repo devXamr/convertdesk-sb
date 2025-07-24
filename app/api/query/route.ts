@@ -12,7 +12,7 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
 
 export async function POST(req: Request) {
     try {
-        const { user_id, question, botId } = await req.json();
+        const { user_id, question, botId, messageContext } = await req.json();
 
         console.log("Incoming query: ", {
             user_id, question, botId
@@ -77,14 +77,18 @@ export async function POST(req: Request) {
 
         // todo: add 'suggest other options based on what the user has chosen'
         const prompt = `
-Answer the following question using the context below. Keep the answer short and sweet. Only reply to relevant questions and keep the conversation professional. Provide the user with helpful guidance. Be hospitable and ask follow up questions.
+Answer the following question using the context below. Keep the answer short and sweet. Only reply to relevant questions and keep the conversation professional. Provide the user with helpful guidance. Be hospitable and ask follow up questions. When the user might want to contact the company or might want to get contacted by the company, ask the user their name and email,
+
+if the user only gives you their name, ask them for their email in the next chat, say something like "And your email please?". You need to collect the fields required from the user. If the email has already been provided, do not ask again.
+Once the user provides email as well, say thank you and something along the lines of "Thank you for providing me with your information, our team will contact you soon. Meanwhile," and the followup questions comes after.
+
+Use these messages to see what the user has sent previously: ${messageContext}
 
 Context:
 ${context}
 
-Question:
+Question/input:
 ${question}
-
 Answer:
 `;
 

@@ -29,7 +29,6 @@ function AppearanceConfigSection({botId}) {
     }
 
     useEffect(() => {
-        setIsChatLoading(true)
         getAppearanceConfig().then((config) => {
             console.log(config.appearance_settings)
             setAppearanceConfig(config.appearance_settings)
@@ -38,7 +37,7 @@ function AppearanceConfigSection({botId}) {
         })
     }, []);
 
-    const [isChatloading, setIsChatLoading] = useState(false)
+    const [isChatloading, setIsChatLoading] = useState(true)
     const [appearanceColor, setAppearanceColor] = useState('#000000')
     const [companyName, setCompanyName] = useState('Company Name')
     const [chatbotName, setChatbotName] = useState('AI Assistant')

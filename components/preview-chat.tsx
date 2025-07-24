@@ -40,6 +40,15 @@ function PreviewChat({botId, chatLoading, appearanceColor, chatbotName, companyN
     const [allMessages, setAllMessages] = useState<MessageType[]>([])
     const [loading, setLoading] = useState(false)
     const [userId, setUserId] = useState('')
+    const [messageContext, setMessageContext] = useState<MessageType[]>([])
+
+    useEffect(() => {
+        if(allMessages.length > 5){
+            setMessageContext(allMessages.slice(allMessages.length - 5))
+        } else {
+            setMessageContext(allMessages)
+        }
+    }, [allMessages]);
 
 
     useEffect(() => {
@@ -69,8 +78,16 @@ function PreviewChat({botId, chatLoading, appearanceColor, chatbotName, companyN
 
     async function handleAIResponse(){
         console.log("The process has reached the AI CALL")
-        const data = await axios.post('/api/query', {user_id: userId, question: currentUserMessage, botId: botId })
+
+
+        const ctxt = allMessages.length < 5 ? allMessages : allMessages.slice(allMessages.length - 5)
+        console.log("Here's the message window context I am sending", ctxt)
+        console.log("Here's the user's input", currentUserMessage)
+        const data = await axios.post('/api/query', {user_id: userId, question: currentUserMessage, botId: botId, messageContext: ctxt})
         console.log("here's the data that was returned", data.data.answer)
+
+
+
         setAllMessages(prev => [...prev, {sender: 'AI', message: data.data.answer}])
     }
 
@@ -91,7 +108,7 @@ function PreviewChat({botId, chatLoading, appearanceColor, chatbotName, companyN
 
     return (
         <div>
-            {chatLoading && <div className='mx-auto w-fit mt-10'><Loader/></div>}
+            {chatLoading && <div className='mx-auto w-fit mt-10 animate-spin text-gray-600'><Loader/></div>}
         {!chatLoading && <div className={`absolute ${botPlacement === 'bottom-right' ? 'right-2' : 'left-2'} bottom-2`}>
             {chatIconClicked && <div className={`bottom-14 flex flex-col relative ${botSize === 'large' && 'h-[600px] w-[450px]'} ${botSize === 'medium' && 'h-[500px] w-[400px]'} ${botSize === 'small' && 'h-[400px] w-[300px]'} bg-gray-50 border-gray-300 shadow-sm rounded-md border`}>
                 <div className='flex py-2 px-2 items-center gap-4' style={{backgroundColor: appearanceColor}}>
@@ -101,16 +118,20 @@ function PreviewChat({botId, chatLoading, appearanceColor, chatbotName, companyN
 
                 <div className='flex-1 flex flex-col justify-between overflow-y-scroll py-3'>
                     <div>
-                    {welcomeMessages.map(each => <AiMessage message={each} chatbotName={chatbotName}/>)}
+                        {welcomeMessages.map(each => <AiMessage message={each} chatbotName={chatbotName}/>)}
 
 
-                        {allMessages.map(eachMessage => eachMessage.sender === 'AI' ? <AiMessage message={eachMessage.message} chatbotName={chatbotName}/>: <UserMessage textColor={textColor} chatColor={chatColor} message={eachMessage.message}/>)}
+                        {allMessages.map(eachMessage => eachMessage.sender === 'AI' ?
+                            <AiMessage message={eachMessage.message} chatbotName={chatbotName}/> :
+                            <UserMessage textColor={textColor} chatColor={chatColor} message={eachMessage.message}/>)}
+                        
                     </div>
 
                     {userMessages.length === 0 && <div className='flex w-full flex-wrap gap-1 px-2 py-2 mt-4'>
                         {defaultMessages.map(each => <div
                             className='text-xs px-3 py-1 border bg-gray-100 text-gray-600 cursor-pointer rounded-lg'>{each}</div>)}
                     </div>}
+
 
                 </div>
 
