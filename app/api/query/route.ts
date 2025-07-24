@@ -14,11 +14,34 @@ export async function POST(req: Request) {
     try {
         const { user_id, question, botId } = await req.json();
 
-        if (!user_id || !question) {
+        console.log("Incoming query: ", {
+            user_id, question, botId
+        })
+
+        if (!botId || !question) {
             return NextResponse.json({ error: "Missing parameters" }, { status: 400 });
         }
 
-        console.log(`Processing question for user ${user_id}: ${question}`);
+        let fetchedUserId = user_id
+
+        if(!fetchedUserId){
+            const { data: botData, error: botError } = await supabase
+                .from("user_bots")
+                .select("user_id")
+                .eq("botId", botId)
+                .single();
+
+            if (botError || !botData) {
+                return NextResponse.json({ error: "Invalid botId" }, { status: 404 });
+            }
+
+            console.log("here's whats returned in botData", botData)
+
+            fetchedUserId = botData.user_id;
+
+        }
+
+        console.log(`Processing question for user ${fetchedUserId}: ${question}`);
 
         // Step 1️⃣ Embed the question
         const embeddingRes = await openai.embeddings.create({
@@ -33,7 +56,7 @@ export async function POST(req: Request) {
             query_embedding: questionEmbedding,
             match_threshold: 0.78, // adjust as needed
             match_count: 5,
-            user_id,
+            user_id: fetchedUserId,
             bot_id : botId
         });
 
@@ -54,7 +77,7 @@ export async function POST(req: Request) {
 
         // todo: add 'suggest other options based on what the user has chosen'
         const prompt = `
-Answer the following question using the context below. Keep the answer short and sweet. Only reply to relevant questions and keep the conversation professional. Provide the user with helpful guidance.
+Answer the following question using the context below. Keep the answer short and sweet. Only reply to relevant questions and keep the conversation professional. Provide the user with helpful guidance. Be hospitable and ask follow up questions.
 
 Context:
 ${context}

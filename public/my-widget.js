@@ -28,10 +28,10 @@
         return luminance < 128 ? '#FFFFFF' : '#000000';
     }
 
-    function createWidget(settings) {
+    function createWidget(settings, botId) {
 
         console.log("These are the fetched settigs homie: ", settings)
-        const mergedSettings = { ...DEFAULT_SETTINGS, ...settings };
+        const mergedSettings = { ...DEFAULT_SETTINGS, ...settings , botId};
 
         const bubble = document.createElement("div");
         bubble.textContent = "💬";
@@ -193,31 +193,54 @@
             userBubble.style.marginLeft = "auto";
             userBubble.textContent = msg;
             messagesContainer.appendChild(userBubble);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
 
             messageInput.value = "";
 
-            setTimeout(() => {
-                const aiMsg = document.createElement("div");
-                aiMsg.style.marginTop = "8px";
-                aiMsg.style.marginLeft = "4px";
-                aiMsg.style.fontSize = "12px";
-                aiMsg.style.color = "gray";
-                aiMsg.textContent = mergedSettings.chatbot_name;
-                messagesContainer.appendChild(aiMsg);
+            const aiMsg = document.createElement("div");
+            aiMsg.style.marginTop = "8px";
+            aiMsg.style.marginLeft = "4px";
+            aiMsg.style.fontSize = "12px";
+            aiMsg.style.color = "gray";
+            aiMsg.textContent = mergedSettings.chatbotName;
+            messagesContainer.appendChild(aiMsg);
 
-                const aiBubble = document.createElement("div");
-                aiBubble.style.fontSize = "14px";
-                aiBubble.style.padding = "8px 12px";
-                aiBubble.style.backgroundColor = "#f3f4f6";
-                aiBubble.style.color = "#374151";
-                aiBubble.style.borderRadius = "4px";
-                aiBubble.style.maxWidth = "70%";
-                aiBubble.style.width = "fit-content";
-                aiBubble.textContent = "This is a mock reply.";
-                messagesContainer.appendChild(aiBubble);
-            }, 1000);
+            const aiBubble = document.createElement("div");
+            aiBubble.style.fontSize = "14px";
+            aiBubble.style.padding = "8px 12px";
+            aiBubble.style.backgroundColor = "#f3f4f6";
+            aiBubble.style.color = "#374151";
+            aiBubble.style.borderRadius = "4px";
+            aiBubble.style.maxWidth = "70%";
+            aiBubble.style.width = "fit-content";
+            aiBubble.textContent = "Typing...";
+            messagesContainer.appendChild(aiBubble);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+
+            fetch("http://192.168.29.226:3000/api/query", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    botId: mergedSettings.botId,
+                    question: msg,
+                }),
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    aiBubble.textContent = data.answer || "Sorry, something went wrong.";
+                })
+                .catch((err) => {
+                    aiBubble.textContent = "Oops! Failed to get a reply.";
+                    console.error("Query error:", err);
+                });
         });
     }
+
+
 
     async function init({ botId }) {
         if (!botId) {
@@ -228,10 +251,10 @@
         try {
             const res = await fetch(`http://192.168.29.226:3000/api/embed?botId=${botId}`);
             const settings = res.ok ? await res.json() : {};
-            createWidget(settings);
+            createWidget(settings, botId);
         } catch (err) {
             console.error("Failed to fetch bot settings:", err);
-            createWidget(DEFAULT_SETTINGS);
+            createWidget(DEFAULT_SETTINGS, botId);
         }
     }
 
