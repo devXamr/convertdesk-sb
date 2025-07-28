@@ -18,7 +18,7 @@ function getTextColor(backgroundColor: string): string {
     return luminance < 128 ? '#FFFFFF' : '#000000';
 }
 
-function PreviewChat({botId, chatLoading, appearanceColor, chatbotName, companyName, defaultMessages, welcomeMessages, chatColor, botPlacement, botSize}) {
+function PreviewChat({showContactPage, botId, chatLoading, appearanceColor, chatbotName, companyName, defaultMessages, welcomeMessages, chatColor, botPlacement, botSize}) {
     const [chatIconClicked, setChatIconClicked] = useState(true)
     const [textColor, setTextColor] = useState(() => getTextColor(chatColor))
 
@@ -116,7 +116,28 @@ function PreviewChat({botId, chatLoading, appearanceColor, chatbotName, companyN
                     <div className='text-white'>{companyName}</div>
                 </div>
 
-                <div className='flex-1 flex flex-col justify-between overflow-y-scroll py-3'>
+                {showContactPage && <div className='flex-1'>
+                    <div className='bg-white px-4 py-3 mx-4 my-3 rounded-md shadow-sm border'>
+                    <div className='bg-white'>Please enter your contact details below to proceed:</div>
+                        <form className='bg-white'>
+                            <div className='my-1'>
+                                <div className='text-sm text-gray-600'>Name:</div>
+                                <input type={"text"} className='py-3 px-3 w-full border'/>
+                            </div>
+
+                            <div className='my-1'>
+                                <div className='text-sm text-gray-600'>Email:</div>
+                                <input type={"text"} className='py-3 px-3 w-full border'/>
+                            </div>
+
+                            <button className='py-2 px-4 rounded-md hover:opacity-90 w-full block' style={{backgroundColor: appearanceColor, color: getTextColor(appearanceColor)}}>Submit</button>
+
+                        </form>
+
+                    </div>
+                </div>}
+
+                {!showContactPage && <div className='flex-1 flex flex-col justify-between overflow-y-scroll py-3'>
                     <div>
                         {welcomeMessages.map(each => <AiMessage message={each} chatbotName={chatbotName}/>)}
 
@@ -133,16 +154,16 @@ function PreviewChat({botId, chatLoading, appearanceColor, chatbotName, companyN
                     </div>}
 
 
-                </div>
+                </div>}
 
 
-                <form onSubmit={(e) => {
+                {!showContactPage && <form onSubmit={(e) => {
                     e.preventDefault()
                     handleUserMessageSubmission()
                 }} className='flex border-b rounded-b-lg'>
                     <input value={currentUserMessage} onChange={(e) => setCurrentUserMessage(e.target.value)} className='outline-0 py-4 flex-1 px-2 text-sm' placeholder='type your message here.'/>
                     <button type='submit' className='bg-white text-gray-500 px-3'><Send size='20px'/></button>
-                </form>
+                </form>}
                 <div className='text-center text-xs py-1 text-gray-500 font-light flex items-center justify-center'><Image src={logo} className='w-6'/>powered by ConvertDesk</div>
             </div>}
             <div style={{backgroundColor: appearanceColor}} onClick={() => setChatIconClicked(prev => !prev)} className={`rounded-full px-3 py-3 text-white absolute transition-all ${botPlacement === 'bottom-right' ? 'bottom-0 right-0' : 'bottom-0 left-0'}`}><div><MessageSquareDot/></div></div>

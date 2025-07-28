@@ -2,7 +2,7 @@
 import React, {useEffect, useState} from 'react';
 import {X} from "lucide-react";
 
-function AppearanceSettings({chatColor, onSaveClickFunc, setChatColor, setAppearanceColor, appearanceColor, chatbotName, setChatbotName, setCompanyName, companyName, setWelcomeMessages, welcomeMessages, setDefaultMessages, defaultMessages, botPlacement, setBotPlacement, botSize, setBotSize}) {
+function AppearanceSettings({wantsLeadCapture, setWantsLeadCapture, chatColor, onSaveClickFunc, setChatColor, setAppearanceColor, appearanceColor, chatbotName, setChatbotName, setCompanyName, companyName, setWelcomeMessages, welcomeMessages, setDefaultMessages, defaultMessages, botPlacement, setBotPlacement, botSize, setBotSize}) {
 
     const [currentWelcomeMessage, setCurrentWelcomeMessage] = useState('')
     const [currentDefaultMessage, setCurrentDefaultMessage] = useState('')
@@ -24,6 +24,10 @@ function AppearanceSettings({chatColor, onSaveClickFunc, setChatColor, setAppear
 
         setCurrentWelcomeMessage('')
     }
+
+    useEffect(() => {
+        console.log("wantsLeadCapture", wantsLeadCapture)
+    }, [wantsLeadCapture]);
 
     return (
         <div className='bg-white px-5 py-5 border rounded-md h-full shadow-sm'>
@@ -63,6 +67,18 @@ function AppearanceSettings({chatColor, onSaveClickFunc, setChatColor, setAppear
 
                 <div className='w-full h-10'>
                     <input type='text' value={companyName} onChange={(e) => setCompanyName(e.target.value)}
+                           className='w-full h-full border rounded-md px-2 text-sm'/>
+                </div>
+            </div>
+
+            <div className='flex mt-7 gap-4 items-center'>
+                <div>
+                    <div>Capture Contact Info. <span className='px-2 py-1 text-xs text-gray-500 rounded-md mx-2 font-light bg-gray-100'>Recommended</span></div>
+                    <div className='text-xs text-gray-600 mb-2 mt-1'> Asks visitor for basic contact information (Information is added to the leads table).</div>
+                </div>
+
+                <div className='w-12 h-5'>
+                    <input type='checkbox' value={wantsLeadCapture} onChange={(e) => setWantsLeadCapture(e.target.checked)}
                            className='w-full h-full border rounded-md px-2 text-sm'/>
                 </div>
             </div>
@@ -182,7 +198,8 @@ function AppearanceSettings({chatColor, onSaveClickFunc, setChatColor, setAppear
             </button>
 
 
-            <button onClick={onSaveClickFunc} className=' hover:bg-black/80 block mt-7 bg-black px-4 py-3 rounded-md text-sm w-full text-white'>
+            <button onClick={onSaveClickFunc}
+                    className=' hover:bg-black/80 block mt-7 bg-black px-4 py-3 rounded-md text-sm w-full text-white'>
                 Save Changes
             </button>
         </div>
