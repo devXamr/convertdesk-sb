@@ -44,7 +44,8 @@ function LeadsPage(props) {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {allBotLeads.map(eachLead => <TableRow>
+                    {allBotLeads.map(eachLead => <TableRow key={`${eachLead.bot_id}-
+                    ${eachLead.botId}-${eachLead.created_at}`}>
                         <TableCell>{eachLead.lead_name}</TableCell>
                         <TableCell>{eachLead.lead_email}</TableCell>
                         <TableCell className="text-right">{eachLead.created_at.slice(0,10).replaceAll('-', '/')}</TableCell>

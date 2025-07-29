@@ -12,6 +12,13 @@ import {EnvVarWarning} from "@/components/env-var-warning";
 import {AuthButton} from "@/components/auth-button";
 import {ThemeSwitcher} from "@/components/theme-switcher";
 import React from "react";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbSeparator
+} from "@/components/ui/breadcrumb";
 
 export default async function ProtectedPage() {
   const supabase = await createClient();
@@ -35,20 +42,46 @@ export default async function ProtectedPage() {
     console.log("This is the user's info", userInfo)
 
   return (
-      <div className='mt-10'>
-        <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
+      <div>
+        <div className='flex justify-between border-b items-center'>
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+
+              <BreadcrumbLink>
+                <div className="flex gap-1 items-center font-semibold">
+                  <Image src={convertDeskBG} alt='convert desk logo' className='w-12'/>
+                  <Link href={"/"} className='text-blue-950'>ConvertDesk</Link>
+                </div>
+              </BreadcrumbLink>
+
+            </BreadcrumbItem>
+            <BreadcrumbSeparator className="hidden md:block"/>
+
+            <BreadcrumbItem className="hidden md:block">
+              <BreadcrumbLink href="/dashboard">
+                Dashboard
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+        <nav className=" flex justify-center h-16">
+
           <div className="w-full max-w-5xl flex justify-between items-center p-3 px-5 text-sm">
-            <div className="flex gap-1 items-center font-semibold">
-              <Image src={convertDeskBG} alt='convert desk logo' className='w-12'/>
-              <Link href={"/"} className='text-xl text-blue-950'>ConvertDesk</Link>
-            </div>
+
             <div className='flex gap-4'>
               {!hasEnvVars ? <EnvVarWarning/> : <AuthButton/>}
               <ThemeSwitcher/>
             </div>
           </div>
         </nav>
-        <DashboardPage/>
+
+        </div>
+        <div className='max-w-5xl mx-auto py-10'>
+          <DashboardPage/>
+
+        </div>
+
 
       </div>
   );
