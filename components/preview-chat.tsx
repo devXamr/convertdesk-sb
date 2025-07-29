@@ -105,6 +105,38 @@ function PreviewChat({showContactPage, botId, chatLoading, appearanceColor, chat
         setCurrentUserMessage('')
     }
 
+    const [userEmail, setUserEmail] = useState('')
+    const [userName, setUserName] = useState('')
+    const [error, setError] = useState(0)
+
+    async function handleContactFormSubmission() {
+        if(userName === '' || userEmail === '' ){
+            setError(1)
+            return
+        }
+
+        if(error !== 0){
+            setError(0)
+        }
+
+        console.log("adding the following to the lead table from the frontend request:", botId, "lead_name:", userName, "lead_email", userEmail  )
+
+        const sent = await fetch('/api/submit-lead-details', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                bot_id: botId,
+                lead_name: userName,
+                lead_email: userEmail
+            })
+        });
+
+        console.log("Response after sending the request", sent)
+
+        setUserName('')
+        setUserEmail('')
+    }
+
 
     return (
         <div>
@@ -118,20 +150,24 @@ function PreviewChat({showContactPage, botId, chatLoading, appearanceColor, chat
 
                 {showContactPage && <div className='flex-1'>
                     <div className='bg-white px-4 py-3 mx-4 my-3 rounded-md shadow-sm border'>
-                    <div className='bg-white'>Please enter your contact details below to proceed:</div>
-                        <form className='bg-white'>
-                            <div className='my-1'>
-                                <div className='text-sm text-gray-600'>Name:</div>
-                                <input type={"text"} className='py-3 px-3 w-full border'/>
+                    <div className='bg-white text-md my-3 text-gray-600'> Please enter your details below so our team can contact you for further assistance and to chat.</div>
+                        <form className='bg-white' onSubmit={(e) => {
+                            e.preventDefault()
+                            handleContactFormSubmission()
+                        }}>
+                            <div>
+                            <div className='my-2'>
+                                <div className='text-gray-600'>Name:</div>
+                                <input value={userName} onChange={(e) => setUserName(e.target.value)} type={"text"} className='py-2 px-3 w-full border text-sm outline-gray-300 text-gray-900'/>
                             </div>
 
-                            <div className='my-1'>
-                                <div className='text-sm text-gray-600'>Email:</div>
-                                <input type={"text"} className='py-3 px-3 w-full border'/>
+                            <div className='my-2'>
+                                <div className='text-gray-600'>Email:</div>
+                                <input value={userEmail} onChange={(e) => setUserEmail(e.target.value)} type={"email"} required={true} className='py-2 px-3 w-full border text-sm outline-gray-300 text-gray-900'/>
                             </div>
 
-                            <button className='py-2 px-4 rounded-md hover:opacity-90 w-full block' style={{backgroundColor: appearanceColor, color: getTextColor(appearanceColor)}}>Submit</button>
-
+                            <button type={"submit"} className='py-3 px-4 mt-4 rounded-md hover:opacity-90 w-full block' style={{backgroundColor: appearanceColor, color: getTextColor(appearanceColor)}}>Submit</button>
+                            </div>
                         </form>
 
                     </div>

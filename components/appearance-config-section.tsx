@@ -60,6 +60,11 @@ function AppearanceConfigSection({botId}) {
     const [wantsLeadCapture, setWantsLeadCapture] = useState(true)
     const [showContactPage, setShowContactPage] = useState(false)
 
+    useEffect(() => {
+        if(!wantsLeadCapture){
+            setShowContactPage(false)
+        }
+    }, [wantsLeadCapture]);
 
     async function handleChanges(){
         const config = {
@@ -80,6 +85,8 @@ function AppearanceConfigSection({botId}) {
     }
 
 
+
+
     return <div className='py-10'>
 
 
@@ -96,7 +103,7 @@ function AppearanceConfigSection({botId}) {
             <div className='text-lg px-5 font-light'>Preview</div>
 
             <div className='min-h-[750px] flex-1  bg-gray-50 rounded-sm mt-4 relative'>
-                <button className={`cursor-pointer px-4 py-1 text-sm bg-gray-100 text-gray-500 my-3 mx-3 rounded-md border ${showContactPage && "bg-green-100"}`} onClick={() => setShowContactPage(prev => !prev)}>Show Contact Page {showContactPage && 'X'}</button>
+                {wantsLeadCapture && <button className={`cursor-pointer px-4 py-1 text-sm bg-gray-100 text-gray-500 my-3 mx-3 rounded-md border ${showContactPage && "bg-green-100"}`} onClick={() => setShowContactPage(prev => !prev)}>Show Contact Page {showContactPage && 'X'}</button>}
                 <PreviewChat botId={botId} chatLoading={isChatloading} appearanceColor={appearanceColor}
                              companyName={companyName} chatbotName={chatbotName}
                              welcomeMessages={welcomeMessages} botPlacement={botPlacement} botSize={botSize}

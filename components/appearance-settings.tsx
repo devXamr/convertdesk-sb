@@ -78,7 +78,7 @@ function AppearanceSettings({wantsLeadCapture, setWantsLeadCapture, chatColor, o
                 </div>
 
                 <div className='w-12 h-5'>
-                    <input type='checkbox' value={wantsLeadCapture} onChange={(e) => setWantsLeadCapture(e.target.checked)}
+                    <input type='checkbox' checked={wantsLeadCapture} onChange={(e) => setWantsLeadCapture(e.target.checked)}
                            className='w-full h-full border rounded-md px-2 text-sm'/>
                 </div>
             </div>
