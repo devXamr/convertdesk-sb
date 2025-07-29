@@ -16,6 +16,7 @@ function BotPageLayout({children}) {
                 <Link href={`/dashboard/${botId}/config`}>Bot Config</Link>
                 <Link href={`/dashboard/${botId}/integrations`}>Integrations</Link>
                 <Link href={`/dashboard/${botId}/settings`}>Settings</Link>
+                <Link href={`/dashboard/${botId}/leads`}>Leads</Link>
 
 
 
