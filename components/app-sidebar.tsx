@@ -16,7 +16,6 @@ import {
 } from "@/components/ui/sidebar"
 import Link from "next/link";
 
-// This is sample data.
 
 
 export function AppSidebar({ botId, ...props}: React.ComponentProps<typeof Sidebar>) {
