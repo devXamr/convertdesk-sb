@@ -219,7 +219,7 @@
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
 
-            fetch("http://192.168.29.226:3000/api/query", {
+            fetch("https://supabase-convertdesk.vercel.app/api/query", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -249,7 +249,7 @@
         }
 
         try {
-            const res = await fetch(`http://192.168.29.226:3000/api/embed?botId=${botId}`);
+            const res = await fetch(`https://supabase-convertdesk.vercel.app/api/embed?botId=${botId}`);
             const settings = res.ok ? await res.json() : {};
             createWidget(settings, botId);
         } catch (err) {
