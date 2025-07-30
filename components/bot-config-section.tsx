@@ -3,24 +3,25 @@ import {Dropzone, DropzoneContent, DropzoneEmptyState, useDropzoneContext} from 
 import {useSupabaseUpload} from "@/hooks/use-supabase-upload";
 import {createClient} from "@/lib/supabase/client";
 import axios from "axios";
+import {ParamValue} from "next/dist/server/request/params";
 
 
 
-function BotConfigSection({botId}) {
-    const [userId, setUserId] = useState(null)
-    const [storedFileInfo, setStoredFileInfo] = useState([])
+function BotConfigSection({botId}: {botId: ParamValue}) {
+    const [userId, setUserId] = useState<string | undefined>(undefined)
+    const [storedFileInfo, setStoredFileInfo] = useState<null | any[]>(null)
     const [storageConsumed, setStorageConsumed] = useState<number>(0)
 
     const supabase = createClient()
 
     function totalConsumed(){
         let total = 0
-        storedFileInfo.map(each => total += Math.floor(each.metadata.size / 1024))
+        storedFileInfo && storedFileInfo.map(each => total += Math.floor(each?.metadata.size / 1024))
         setStorageConsumed(total)
     }
 
     useEffect(() => {
-        if(storedFileInfo.length > 0){
+        if(storedFileInfo && storedFileInfo.length > 0){
             totalConsumed()
         }
     }, [storedFileInfo]);
@@ -109,7 +110,7 @@ function BotConfigSection({botId}) {
                 </div>
                 <div className='text-sm text-gray-600'>Files Currently Stored:</div>
                 <div className='w-full'>
-                    {storedFileInfo.length > 0 && storedFileInfo.map(each => <div className='flex justify-between py-3 border px-4 items-center rounded-md border-gray-200 border-dashed'>
+                    {storedFileInfo && storedFileInfo?.length > 0 && storedFileInfo?.map(each => <div className='flex justify-between py-3 border px-4 items-center rounded-md border-gray-200 border-dashed'>
                         <div className='text-md'>{each.name}</div>
 
                         <div className='flex gap-4'>
@@ -125,7 +126,7 @@ function BotConfigSection({botId}) {
 
                         </div>
                     </div>)}
-                    {storedFileInfo.length < 1 && <div className='text-sm bg-gray-100 py-3 px-3 text-center font-light text-gray-600'>You haven't added any files to your knowledge base yet.</div>}
+                    {storedFileInfo && storedFileInfo?.length < 1 && <div className='text-sm bg-gray-100 py-3 px-3 text-center font-light text-gray-600'>You haven't added any files to your knowledge base yet.</div>}
                 </div>
             </div>
 

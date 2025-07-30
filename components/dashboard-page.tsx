@@ -3,19 +3,18 @@ import React, {useEffect, useState} from 'react';
 import {Button} from "@/components/ui/button";
 import {useRouter} from "next/navigation";
 import { v4 as uuidv4 } from 'uuid';
-import {createBrowserClient} from "@supabase/ssr";
 import {createClient} from "@/lib/supabase/client";
-import {userAgentFromString} from "next/server";
 import Link from "next/link";
+import {Session} from "@supabase/auth-js";
 
 
 
 function DashboardPage() {
     const nav = useRouter()
-    const [userSession, setUserSession] = useState(null)
-    const [userBotCount, setUserBotCount] = useState<number>(null)
+    const [userSession, setUserSession] = useState<Session | null>(null)
+    const [userBotCount, setUserBotCount] = useState<number | undefined>(undefined)
     const [error, setError] = useState(false)
-    const [allUserBots, setAllUserBots] = useState(null)
+    const [allUserBots, setAllUserBots] = useState<any[] | null | undefined>(null)
 
     const supabase = createClient()
 
@@ -37,14 +36,20 @@ function DashboardPage() {
 
 
     async function fetchAllUserBots(){
-        const allBots = await supabase.from("user_bots").select().eq("user_id", userSession.user.id)
-        return allBots.data
+        if(userSession){
+            const allBots = await supabase.from("user_bots").select().eq("user_id", userSession.user.id)
+            return allBots.data
+
+        }
 
 
     }
     async function fetchUserBotCount(){
-        const botCount = await supabase.from("User_Info").select("bots_created").eq("user_id", userSession.user.id)
-        return botCount.data[0].bots_created
+        if(userSession){
+            const botCount = await supabase.from("User_Info").select("bots_created").eq("user_id", userSession.user.id)
+            return botCount?.data?.[0]?.bots_created
+        }
+
     }
 
 
@@ -71,7 +76,7 @@ function DashboardPage() {
         //will change the limit here once the rate limits are set.
 
         // todo: change this limit back to 1 bot only at the end.
-        if(userBotCount > 1){
+        if(userBotCount && userBotCount > 1){
             setError(true)
             return
         }
@@ -85,14 +90,17 @@ function DashboardPage() {
         nav.push(`/dashboard/${id}`)
     }
 
-    async function handleBotCreation(id){
-        const createBot = await supabase.from("user_bots").insert({user_id: userSession.user.id, botId: id})
+    async function handleBotCreation(id: string){
+        const createBot = await supabase.from("user_bots").insert({user_id: userSession?.user.id, botId: id})
         console.log("bot created successfully ", createBot.data)
         const newBotCount = (userBotCount || 0) + 1
         console.log("The new bot count is:", newBotCount)
-        const increaseBotCount = await supabase.from("User_Info").update({"bots_created": newBotCount}).eq('user_id', userSession.user.id)
+        if(userSession){
+            const increaseBotCount = await supabase.from("User_Info").update({"bots_created": newBotCount}).eq('user_id', userSession.user.id)
+            console.log("data returned from increase bot count: ", increaseBotCount.data)
 
-        console.log("data returned from increase bot count: ", increaseBotCount.data)
+        }
+
     }
 
     return (
@@ -110,7 +118,7 @@ function DashboardPage() {
                 </div>
 
             </div>
-            {allUserBots === 0 && <div> you havent created any bots </div>}
+            {allUserBots && allUserBots.length === 0 && <div> you havent created any bots </div>}
             <div className='grid grid-cols-2 gap-4 py-4'>
             {allUserBots && allUserBots.map(eachBot => <Link href={`/dashboard/${eachBot.botId}/appearance`} className='px-5 py-6 rounded-md block col-span-1 border bg-blue-100 hover:bg-blue-50 transition-colors'>
                 <div>

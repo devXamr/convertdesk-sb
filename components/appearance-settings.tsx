@@ -1,8 +1,30 @@
 'use client'
-import React, {useEffect, useState} from 'react';
+import React, {Dispatch, useEffect, useState} from 'react';
 import {X} from "lucide-react";
 
-function AppearanceSettings({wantsLeadCapture, setWantsLeadCapture, chatColor, onSaveClickFunc, setChatColor, setAppearanceColor, appearanceColor, chatbotName, setChatbotName, setCompanyName, companyName, setWelcomeMessages, welcomeMessages, setDefaultMessages, defaultMessages, botPlacement, setBotPlacement, botSize, setBotSize}) {
+
+type AppearanceSettingsProps = {
+    wantsLeadCapture : boolean,
+    setWantsLeadCapture:  (value: (((prevState: boolean) => boolean) | boolean)) => void,
+    chatColor: string,
+    onSaveClickFunc: () => Promise<void>,
+    setChatColor:  (value: (((prevState: string) => string) | string)) => void,
+    setAppearanceColor: (value: (((prevState: string) => string) | string)) => void,
+    appearanceColor: string,
+    chatbotName: string,
+    setChatbotName: (value: (((prevState: string) => string) | string)) => void,
+    setCompanyName: (value: (((prevState: string) => string) | string)) => void,
+    companyName: string,
+    setWelcomeMessages: (value: (((prevState: string[]) => string[]) | string[])) => void,
+    welcomeMessages: string[],
+    setDefaultMessages: (value: (((prevState: string[]) => string[]) | string[])) => void,
+    defaultMessages: string[],
+    botPlacement: string,
+    setBotPlacement: (value: (((prevState: string) => string) | string)) => void,
+    botSize: string,
+    setBotSize: (value: (((prevState: string) => string) | string)) => void
+}
+function AppearanceSettings({wantsLeadCapture, setWantsLeadCapture, chatColor, onSaveClickFunc, setChatColor, setAppearanceColor, appearanceColor, chatbotName, setChatbotName, setCompanyName, companyName, setWelcomeMessages, welcomeMessages, setDefaultMessages, defaultMessages, botPlacement, setBotPlacement, botSize, setBotSize} : AppearanceSettingsProps) {
 
     const [currentWelcomeMessage, setCurrentWelcomeMessage] = useState('')
     const [currentDefaultMessage, setCurrentDefaultMessage] = useState('')
@@ -11,6 +33,7 @@ function AppearanceSettings({wantsLeadCapture, setWantsLeadCapture, chatColor, o
         if (currentDefaultMessage === ''){
             return
         }
+
         setDefaultMessages(prev => [...prev, currentDefaultMessage])
 
         setCurrentDefaultMessage('')

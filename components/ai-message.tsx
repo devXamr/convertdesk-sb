@@ -1,6 +1,6 @@
 import React from 'react';
 
-function AiMessage({message, chatbotName}) {
+function AiMessage({message, chatbotName} : {message: string, chatbotName: string}) {
     return (
         <div>
             <div className='text-xs ml-1 text-gray-500 font-light mt-4'>{chatbotName}</div>

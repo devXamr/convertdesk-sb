@@ -7,6 +7,8 @@ import logo from '../public/convertdesklogo.png'
 import {createClient} from "@/lib/supabase/client";
 import UserMessage from "@/components/user-message";
 import axios from "axios";
+import {cryptoRuntime} from "jose";
+import {ParamValue} from "next/dist/server/request/params";
 
 function getTextColor(backgroundColor: string): string {
     const r = parseInt(backgroundColor.substr(1, 2), 16);
@@ -18,7 +20,18 @@ function getTextColor(backgroundColor: string): string {
     return luminance < 128 ? '#FFFFFF' : '#000000';
 }
 
-function PreviewChat({showContactPage, botId, chatLoading, appearanceColor, chatbotName, companyName, defaultMessages, welcomeMessages, chatColor, botPlacement, botSize}) {
+type PreviewChatProps = {
+    showContactPage: boolean, botId: ParamValue, chatLoading: boolean, appearanceColor: string, chatbotName: string,
+    companyName: string,
+    defaultMessages: string[],
+    welcomeMessages: string[],
+    chatColor: string,
+    botPlacement: string,
+    botSize: string
+
+}
+
+function PreviewChat({showContactPage, botId, chatLoading, appearanceColor, chatbotName, companyName, defaultMessages, welcomeMessages, chatColor, botPlacement, botSize}: PreviewChatProps) {
     const [chatIconClicked, setChatIconClicked] = useState(true)
     const [textColor, setTextColor] = useState(() => getTextColor(chatColor))
 
@@ -38,17 +51,7 @@ function PreviewChat({showContactPage, botId, chatLoading, appearanceColor, chat
 
     const [userMessages, setUserMessages] = useState<MessageType[]>([])
     const [allMessages, setAllMessages] = useState<MessageType[]>([])
-    const [loading, setLoading] = useState(false)
-    const [userId, setUserId] = useState('')
-    const [messageContext, setMessageContext] = useState<MessageType[]>([])
-
-    useEffect(() => {
-        if(allMessages.length > 5){
-            setMessageContext(allMessages.slice(allMessages.length - 5))
-        } else {
-            setMessageContext(allMessages)
-        }
-    }, [allMessages]);
+    const [userId, setUserId] = useState<string | undefined>(undefined)
 
 
     useEffect(() => {
@@ -150,23 +153,23 @@ function PreviewChat({showContactPage, botId, chatLoading, appearanceColor, chat
 
                 {showContactPage && <div className='flex-1'>
                     <div className='bg-white px-4 py-3 mx-4 my-3 rounded-md shadow-sm border'>
-                    <div className='bg-white text-md my-3 text-gray-600'> Please enter your details below so our team can contact you for further assistance and to chat.</div>
+                    <div className='bg-white text-sm my-3 text-gray-600'> Please enter your details below so our team can contact you for further assistance and to chat.</div>
                         <form className='bg-white' onSubmit={(e) => {
                             e.preventDefault()
                             handleContactFormSubmission()
                         }}>
                             <div>
-                            <div className='my-2'>
-                                <div className='text-gray-600'>Name:</div>
-                                <input value={userName} onChange={(e) => setUserName(e.target.value)} type={"text"} className='py-2 px-3 w-full border text-sm outline-gray-300 text-gray-900'/>
+                            <div className='my-1'>
+                                <div className='text-gray-600 text-sm'>Name:</div>
+                                <input value={userName} onChange={(e) => setUserName(e.target.value)} type={"text"} className='py-1 px-3 w-full border text-sm outline-gray-300 text-gray-900'/>
                             </div>
 
-                            <div className='my-2'>
-                                <div className='text-gray-600'>Email:</div>
-                                <input value={userEmail} onChange={(e) => setUserEmail(e.target.value)} type={"email"} required={true} className='py-2 px-3 w-full border text-sm outline-gray-300 text-gray-900'/>
+                            <div className='my-1'>
+                                <div className='text-gray-600 text-sm'>Email:</div>
+                                <input value={userEmail} onChange={(e) => setUserEmail(e.target.value)} type={"email"} required={true} className='py-1 px-3 w-full border text-sm outline-gray-300 text-gray-900'/>
                             </div>
 
-                            <button type={"submit"} className='py-3 px-4 mt-4 rounded-md hover:opacity-90 w-full block' style={{backgroundColor: appearanceColor, color: getTextColor(appearanceColor)}}>Submit</button>
+                            <button type={"submit"} className='py-2 px-4 mt-4 rounded-md hover:opacity-90 w-full text-sm block' style={{backgroundColor: appearanceColor, color: getTextColor(appearanceColor)}}>Submit</button>
                             </div>
                         </form>
 
@@ -175,17 +178,17 @@ function PreviewChat({showContactPage, botId, chatLoading, appearanceColor, chat
 
                 {!showContactPage && <div className='flex-1 flex flex-col justify-between overflow-y-scroll py-3'>
                     <div>
-                        {welcomeMessages.map(each => <AiMessage message={each} chatbotName={chatbotName}/>)}
+                        {welcomeMessages.map(each => <AiMessage key={crypto.randomUUID()} message={each} chatbotName={chatbotName}/>)}
 
 
                         {allMessages.map(eachMessage => eachMessage.sender === 'AI' ?
-                            <AiMessage message={eachMessage.message} chatbotName={chatbotName}/> :
-                            <UserMessage textColor={textColor} chatColor={chatColor} message={eachMessage.message}/>)}
+                            <AiMessage key={crypto.randomUUID()} message={eachMessage.message} chatbotName={chatbotName}/> :
+                            <UserMessage textColor={textColor} key={crypto.randomUUID()} chatColor={chatColor} message={eachMessage.message}/>)}
                         
                     </div>
 
                     {userMessages.length === 0 && <div className='flex w-full flex-wrap gap-1 px-2 py-2 mt-4'>
-                        {defaultMessages.map(each => <div
+                        {defaultMessages.map(each => <div key={crypto.randomUUID()}
                             className='text-xs px-3 py-1 border bg-gray-100 text-gray-600 cursor-pointer rounded-lg'>{each}</div>)}
                     </div>}
 
@@ -200,7 +203,7 @@ function PreviewChat({showContactPage, botId, chatLoading, appearanceColor, chat
                     <input value={currentUserMessage} onChange={(e) => setCurrentUserMessage(e.target.value)} className='outline-0 py-4 flex-1 px-2 text-sm' placeholder='type your message here.'/>
                     <button type='submit' className='bg-white text-gray-500 px-3'><Send size='20px'/></button>
                 </form>}
-                <div className='text-center text-xs py-1 text-gray-500 font-light flex items-center justify-center'><Image src={logo} className='w-6'/>powered by ConvertDesk</div>
+                <div className='text-center text-xs py-1 text-gray-500 font-light flex items-center justify-center'><Image alt='logo for convertdesk' src={logo} className='w-6'/>powered by ConvertDesk</div>
             </div>}
             <div style={{backgroundColor: appearanceColor}} onClick={() => setChatIconClicked(prev => !prev)} className={`rounded-full px-3 py-3 text-white absolute transition-all ${botPlacement === 'bottom-right' ? 'bottom-0 right-0' : 'bottom-0 left-0'}`}><div><MessageSquareDot/></div></div>
         </div>}

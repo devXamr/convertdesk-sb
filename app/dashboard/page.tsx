@@ -1,9 +1,5 @@
 import {redirect} from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { InfoIcon } from "lucide-react";
-import { FetchDataSteps } from "@/components/tutorial/fetch-data-steps";
-import Link from "next/link";
-import {Button} from "@/components/ui/button";
 import DashboardPage from "@/components/dashboard-page";
 import Image from "next/image";
 import convertDeskBG from "@/public/convertdesklogo.png";
@@ -51,10 +47,10 @@ export default async function ProtectedPage() {
             <BreadcrumbList>
               <BreadcrumbItem>
 
-                <BreadcrumbLink>
+                <BreadcrumbLink href={"/"}>
                   <div className="flex gap-1 items-center font-semibold">
                     <Image src={convertDeskBG} alt='convert desk logo' className='w-12'/>
-                    <Link href={"/"} className='text-blue-950'>ConvertDesk</Link>
+                    <div className='text-blue-950'>ConvertDesk</div>
                   </div>
                 </BreadcrumbLink>
 

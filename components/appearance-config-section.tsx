@@ -2,19 +2,22 @@ import React, {useEffect, useState} from 'react';
 import PreviewChat from "@/components/preview-chat";
 import AppearanceSettings from "@/components/appearance-settings";
 import {createClient} from "@/lib/supabase/client";
+import {ParamValue} from "next/dist/server/request/params";
 
-function AppearanceConfigSection({botId}) {
+function AppearanceConfigSection({botId} : {botId: ParamValue}) {
 
     //a setter function and a getter function will be needed in the children of this component, give the setter to the settings panel and the getter to the preview.
     const supabase = createClient()
     async function getAppearanceConfig(){
         const config = await supabase.from('user_bots').select("appearance_settings").eq("botId", botId)
-        return config.data[0]
+        return config?.data?.[0]
     }
 
-    const [appearanceConfig, setAppearanceConfig] = useState(null)
 
-    function handleInitialSettings(config) {
+   type configType =
+    {"size" : string, "placement": string, "chat_color": string, "chatbot_name": string, "company_name": string, "primary_color": string, "default_messages": string[], "wantsLeadCapture": boolean, "welcome_messages": string[]}
+
+    function handleInitialSettings(config: configType) {
         setAppearanceColor(config.primary_color)
         setCompanyName(config.company_name)
         setChatbotName(config.chatbot_name)
@@ -30,15 +33,6 @@ function AppearanceConfigSection({botId}) {
         setWantsLeadCapture(config.wantsLeadCapture)
         setIsChatLoading(false)
     }
-
-    useEffect(() => {
-        getAppearanceConfig().then((config) => {
-            console.log(config.appearance_settings)
-            setAppearanceConfig(config.appearance_settings)
-            handleInitialSettings(config.appearance_settings)
-
-        })
-    }, []);
 
     const [isChatloading, setIsChatLoading] = useState(true)
     const [appearanceColor, setAppearanceColor] = useState('#000000')
@@ -97,23 +91,12 @@ function AppearanceConfigSection({botId}) {
             </div>
         </div>
 
-    <div className='grid grid-cols-5 gap-5'>
+        <div className='grid grid-cols-5 gap-5'>
 
-        <div className='col-span-3 flex flex-col border rounded-md shadow-sm pt-5 h-fit sticky top-0 '>
-            <div className='text-lg px-5 font-light'>Preview</div>
 
-            <div className='min-h-[750px] flex-1  bg-gray-50 rounded-sm mt-4 relative'>
-                {wantsLeadCapture && <button className={`cursor-pointer px-4 py-1 text-sm bg-gray-100 text-gray-500 my-3 mx-3 rounded-md border ${showContactPage && "bg-green-100"}`} onClick={() => setShowContactPage(prev => !prev)}>Show Contact Page {showContactPage && 'X'}</button>}
-                <PreviewChat botId={botId} chatLoading={isChatloading} appearanceColor={appearanceColor}
-                             companyName={companyName} chatbotName={chatbotName}
-                             welcomeMessages={welcomeMessages} botPlacement={botPlacement} botSize={botSize}
-                             defaultMessages={defaultMessages} chatColor={chatColor}
-                             showContactPage={showContactPage}/>
-            </div>
-        </div>
-
-        <div className='col-span-2'>
-                <AppearanceSettings wantsLeadCapture={wantsLeadCapture} setWantsLeadCapture={setWantsLeadCapture} appearanceColor={appearanceColor} setAppearanceColor={setAppearanceColor}
+            <div className='col-span-2'>
+                <AppearanceSettings wantsLeadCapture={wantsLeadCapture} setWantsLeadCapture={setWantsLeadCapture}
+                                    appearanceColor={appearanceColor} setAppearanceColor={setAppearanceColor}
                                     companyName={companyName} setCompanyName={setCompanyName} chatbotName={chatbotName}
                                     setChatbotName={setChatbotName} welcomeMessages={welcomeMessages}
                                     setWelcomeMessages={setWelcomeMessages}
@@ -124,9 +107,25 @@ function AppearanceConfigSection({botId}) {
 
             </div>
 
+            <div className='col-span-3 flex flex-col border rounded-md shadow-sm pt-5 h-fit sticky top-0 '>
+                <div className='text-lg px-5 font-light'>Preview</div>
+
+                <div className='min-h-[750px] flex-1  bg-gray-50 rounded-sm mt-4 relative'>
+                    {wantsLeadCapture && <button
+                        className={`cursor-pointer px-4 py-1 text-sm bg-gray-100 text-gray-500 my-3 mx-3 rounded-md border ${showContactPage && "bg-green-100"}`}
+                        onClick={() => setShowContactPage(prev => !prev)}>Show Contact
+                        Page {showContactPage && 'X'}</button>}
+                    <PreviewChat botId={botId} chatLoading={isChatloading} appearanceColor={appearanceColor}
+                                 companyName={companyName} chatbotName={chatbotName}
+                                 welcomeMessages={welcomeMessages} botPlacement={botPlacement} botSize={botSize}
+                                 defaultMessages={defaultMessages} chatColor={chatColor}
+                                 showContactPage={showContactPage}/>
+                </div>
+            </div>
+
 
         </div>
-        </div>
+    </div>
 
 }
 

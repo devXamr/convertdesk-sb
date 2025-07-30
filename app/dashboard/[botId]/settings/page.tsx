@@ -1,8 +1,10 @@
 import React from 'react';
 
-function Page(props) {
+function Page() {
     return (
-        <div>Settings page</div>
+        <div>
+            <div>Settings</div>
+        </div>
     );
 }
 

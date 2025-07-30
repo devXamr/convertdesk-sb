@@ -1,10 +1,9 @@
 'use client'
 import React, {useEffect, useState} from 'react';
 import Link from "next/link";
-import {useParams, usePathname} from "next/navigation";
+import {useParams} from "next/navigation";
 import {AppSidebar} from "@/components/app-sidebar";
-import {SidebarInset, SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar";
-import {Separator} from "@radix-ui/react-menu";
+import {SidebarInset, SidebarProvider} from "@/components/ui/sidebar";
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -16,22 +15,26 @@ import {createClient} from "@/lib/supabase/client";
 import Image from "next/image";
 import convertDeskBG from "@/public/convertdesklogo.png";
 
-function BotPageLayout({children}) {
+function BotPageLayout({children} : {
+    children: React.ReactNode;
+}) {
+
+
 
     const  {botId} = useParams()
-    const [botData, setBotData] = useState({})
+    const [botData, setBotData] = useState<any>()
 
     useEffect(() => {
         fetchBotDetails().then(setBotData)
-    }, []);
+    }, [fetchBotDetails]);
 
     async function fetchBotDetails(){
 
         const supabase = createClient()
         const currentBot = await supabase.from("user_bots").select().eq("botId", botId)
 
-        console.log("here's the bot data", currentBot.data[0])
-        return currentBot.data[0]
+        console.log("here's the bot data", currentBot.data?.[0])
+        return currentBot.data?.[0]
     }
 
     return (
@@ -58,7 +61,7 @@ function BotPageLayout({children}) {
                     </BreadcrumbItem>
                     <BreadcrumbSeparator className="hidden md:block" />
                     <BreadcrumbItem>
-                        <BreadcrumbPage>{botData.appearance_settings?.chatbot_name}</BreadcrumbPage>
+                        <BreadcrumbPage>{botData?.appearance_settings?.chatbot_name}</BreadcrumbPage>
                     </BreadcrumbItem>
                 </BreadcrumbList>
             </Breadcrumb>

@@ -1,17 +1,10 @@
 'use client'
 import React, {useEffect, useState} from 'react';
-import Link from "next/link";
-import PreviewChat from "@/components/preview-chat";
-import AppearanceSettings from "@/components/appearance-settings";
-import AppearanceConfigSection from "@/components/appearance-config-section";
-import {Dropzone} from "@/components/dropzone";
-import BotConfigSection from "@/components/bot-config-section";
 import {redirect, useParams} from "next/navigation";
 
 
 function CreateBotPage() {
     const {botId} = useParams()
-    const [currentSettingsPage, setCurrentSettingsPage] = useState('config')
 
 
     useEffect(() => {

@@ -12,9 +12,9 @@ import {
     TableRow,
 } from "@/components/ui/table"
 
-function LeadsPage(props) {
+function LeadsPage() {
     const {botId} = useParams()
-    const [allBotLeads, setAllBotLeads] = useState([])
+    const [allBotLeads, setAllBotLeads] = useState<any[] | null>(null)
 
     useEffect(() => {
         fetchLeads().then(setAllBotLeads)
@@ -31,9 +31,9 @@ function LeadsPage(props) {
 
 
     return (
-        <div>
+        <div className='w-[1000px]'>
             <div className='text-xl mb-6 px-1 text-gray-600'>Leads</div>
-            <Table className='border-x'>
+            <Table className='border-x w-full'>
                 <TableCaption>A list leads received through your bot.</TableCaption>
                 <TableHeader>
                     <TableRow>
@@ -44,7 +44,7 @@ function LeadsPage(props) {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {allBotLeads.map(eachLead => <TableRow key={`${eachLead.bot_id}-
+                    {allBotLeads?.map(eachLead => <TableRow key={`${eachLead.bot_id}-
                     ${eachLead.botId}-${eachLead.created_at}`}>
                         <TableCell>{eachLead.lead_name}</TableCell>
                         <TableCell>{eachLead.lead_email}</TableCell>

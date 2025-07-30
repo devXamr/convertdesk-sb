@@ -1,6 +1,6 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import PreviewChat from "./PreviewChat";
+import PreviewChat from "./preview-chat";
 
 export function renderConvertDeskChatbot(props: any) {
     const rootElementId = "convertdesk-chatbot-root";

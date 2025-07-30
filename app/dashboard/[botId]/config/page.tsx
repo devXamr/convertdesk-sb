@@ -3,7 +3,7 @@ import React from 'react';
 import {useParams} from "next/navigation";
 import BotConfigSection from "@/components/bot-config-section";
 
-function Page(props) {
+function Page() {
     const {botId} = useParams()
 
     return (

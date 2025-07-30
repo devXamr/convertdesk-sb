@@ -1,24 +1,25 @@
 import * as React from "react"
 
-import { SearchForm } from "@/components/search-form"
-import { VersionSwitcher } from "@/components/version-switcher"
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarHeader,
+
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarRail,
+
 } from "@/components/ui/sidebar"
 import Link from "next/link";
+import {ParamValue} from "next/dist/server/request/params";
 
 
+type AppSidebarDashboardProps = React.ComponentProps<typeof Sidebar> & {
+  botId: ParamValue; // or whatever type botId is
+};
 
-export function AppSidebar({ botId, ...props}: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({ botId, ...props}: AppSidebarDashboardProps) {
   return (
     <Sidebar {...props} className='w-[200px] bg-white relative sticky top-0'>
       <SidebarContent>

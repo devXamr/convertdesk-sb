@@ -22,7 +22,7 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Missing parameters" }, { status: 400 });
         }
 
-        let fetchedUserId = user_id
+        let fetchedUserId= user_id
 
         if(!fetchedUserId){
             const { data: botData, error: botError } = await supabase
