@@ -26,7 +26,7 @@ function BotPageLayout({children} : {
 
     useEffect(() => {
         fetchBotDetails().then(setBotData)
-    }, [fetchBotDetails]);
+    }, []);
 
     async function fetchBotDetails(){
 
