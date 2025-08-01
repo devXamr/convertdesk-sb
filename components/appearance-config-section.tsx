@@ -8,16 +8,23 @@ function AppearanceConfigSection({botId} : {botId: ParamValue}) {
 
     //a setter function and a getter function will be needed in the children of this component, give the setter to the settings panel and the getter to the preview.
     const supabase = createClient()
+
+    type configType =
+        {"size" : string, "placement": string, "chat_color": string, "chatbot_name": string, "company_name": string, "primary_color": string, "default_messages": string[], "wantsLeadCapture": boolean, "welcome_messages": string[]}
+
     async function getAppearanceConfig(){
         const config = await supabase.from('user_bots').select("appearance_settings").eq("botId", botId)
-        return config?.data?.[0]
+        return config?.data?.[0].appearance_settings
     }
 
 
-   type configType =
-    {"size" : string, "placement": string, "chat_color": string, "chatbot_name": string, "company_name": string, "primary_color": string, "default_messages": string[], "wantsLeadCapture": boolean, "welcome_messages": string[]}
+
 
     function handleInitialSettings(config: configType) {
+
+        console.log("here's everything that config has", config)
+
+        console.log("config primary color:", config.primary_color)
         setAppearanceColor(config.primary_color)
         setCompanyName(config.company_name)
         setChatbotName(config.chatbot_name)
@@ -33,6 +40,10 @@ function AppearanceConfigSection({botId} : {botId: ParamValue}) {
         setWantsLeadCapture(config.wantsLeadCapture)
         setIsChatLoading(false)
     }
+
+    useEffect(() => {
+          getAppearanceConfig().then((config) => handleInitialSettings(config))
+    }, []);
 
     const [isChatloading, setIsChatLoading] = useState(true)
     const [appearanceColor, setAppearanceColor] = useState('#000000')

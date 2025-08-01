@@ -134,7 +134,7 @@ function AppearanceSettings({wantsLeadCapture, setWantsLeadCapture, chatColor, o
                         onClick={handleWelcomeMessageAddition}>Add
                 </button>
 
-                <div className='flex flex-wrap gap-2'>{welcomeMessages.map(each => <div
+                <div className='flex flex-wrap gap-2'>{welcomeMessages?.map(each => <div
                         className='px-4 py-2 bg-blue-100 border text-sm rounded-md flex gap-3 '>{each}
                         <div className='text-gray-500'><X size={20} className='cursor-pointer'
                                                           onClick={() => setWelcomeMessages(prev => prev.filter(eachMessage => eachMessage !== each))}/>
@@ -193,7 +193,7 @@ function AppearanceSettings({wantsLeadCapture, setWantsLeadCapture, chatColor, o
 
             <div className='flex flex-wrap gap-2'>
 
-                {defaultMessages.map(each => <div
+                {defaultMessages?.map(each => <div
                     className='px-4 py-2 bg-blue-100 border text-sm rounded-md flex gap-3 '>{each}
                     <div className='text-gray-500'><X size={20} className='cursor-pointer'
                                                       onClick={() => setDefaultMessages(prev => prev.filter(eachMessage => eachMessage !== each))}/>

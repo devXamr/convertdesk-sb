@@ -45,10 +45,10 @@ function BotPageLayout({children} : {
                 <BreadcrumbList>
                     <BreadcrumbItem>
 
-                        <BreadcrumbLink>
+                        <BreadcrumbLink href="/">
                             <div className="flex items-center font-semibold">
                                 <Image src={convertDeskBG} alt='convert desk logo' className='w-12'/>
-                                <Link href={"/"} className='text-blue-950'>ConvertDesk</Link>
+                                <div className='text-blue-950'>ConvertDesk</div>
                             </div>
                         </BreadcrumbLink>
 

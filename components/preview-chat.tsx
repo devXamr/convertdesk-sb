@@ -11,13 +11,18 @@ import {cryptoRuntime} from "jose";
 import {ParamValue} from "next/dist/server/request/params";
 
 function getTextColor(backgroundColor: string): string {
-    const r = parseInt(backgroundColor.substr(1, 2), 16);
-    const g = parseInt(backgroundColor.substr(3, 2), 16);
-    const b = parseInt(backgroundColor.substr(5, 2), 16);
 
-    const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
+    if(backgroundColor){
+        const r = parseInt(backgroundColor.substr(1, 2), 16);
+        const g = parseInt(backgroundColor.substr(3, 2), 16);
+        const b = parseInt(backgroundColor.substr(5, 2), 16);
 
-    return luminance < 128 ? '#FFFFFF' : '#000000';
+        const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
+
+        return luminance < 128 ? '#FFFFFF' : '#000000';
+
+    }
+
 }
 
 type PreviewChatProps = {
@@ -178,17 +183,17 @@ function PreviewChat({showContactPage, botId, chatLoading, appearanceColor, chat
 
                 {!showContactPage && <div className='flex-1 flex flex-col justify-between overflow-y-scroll py-3'>
                     <div>
-                        {welcomeMessages.map(each => <AiMessage key={crypto.randomUUID()} message={each} chatbotName={chatbotName}/>)}
+                        {welcomeMessages?.map(each => <AiMessage key={each} message={each} chatbotName={chatbotName}/>)}
 
 
                         {allMessages.map(eachMessage => eachMessage.sender === 'AI' ?
-                            <AiMessage key={crypto.randomUUID()} message={eachMessage.message} chatbotName={chatbotName}/> :
+                            <AiMessage key={eachMessage.sender + eachMessage.message} message={eachMessage.message} chatbotName={chatbotName}/> :
                             <UserMessage textColor={textColor} key={crypto.randomUUID()} chatColor={chatColor} message={eachMessage.message}/>)}
                         
                     </div>
 
                     {userMessages.length === 0 && <div className='flex w-full flex-wrap gap-1 px-2 py-2 mt-4'>
-                        {defaultMessages.map(each => <div key={crypto.randomUUID()}
+                        {defaultMessages?.map(each => <div key={each}
                             className='text-xs px-3 py-1 border bg-gray-100 text-gray-600 cursor-pointer rounded-lg'>{each}</div>)}
                     </div>}
 
