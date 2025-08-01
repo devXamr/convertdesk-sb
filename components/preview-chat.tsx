@@ -91,6 +91,8 @@ function PreviewChat({showContactPage, botId, chatLoading, appearanceColor, chat
         const ctxt = allMessages.length < 5 ? allMessages : allMessages.slice(allMessages.length - 5)
         console.log("Here's the message window context I am sending", ctxt)
         console.log("Here's the user's input", currentUserMessage)
+
+        console.log("data being sent", {user_id: userId, question: currentUserMessage, botId: botId, messageContext: ctxt})
         const data = await axios.post('/api/query', {user_id: userId, question: currentUserMessage, botId: botId, messageContext: ctxt})
         console.log("here's the data that was returned", data.data.answer)
 
@@ -188,7 +190,7 @@ function PreviewChat({showContactPage, botId, chatLoading, appearanceColor, chat
 
                         {allMessages.map(eachMessage => eachMessage.sender === 'AI' ?
                             <AiMessage key={eachMessage.sender + eachMessage.message} message={eachMessage.message} chatbotName={chatbotName}/> :
-                            <UserMessage textColor={textColor} key={crypto.randomUUID()} chatColor={chatColor} message={eachMessage.message}/>)}
+                            <UserMessage textColor={textColor} key={eachMessage} chatColor={chatColor} message={eachMessage.message}/>)}
                         
                     </div>
 

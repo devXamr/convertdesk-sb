@@ -8,9 +8,22 @@ const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
+
+
+
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
 
+
+
 export async function POST(req: Request) {
+
+    if(!openai || !supabase){
+        return NextResponse.json({
+            message: "there is a problem with the api keys mate"
+        })
+    }
+
+
     try {
         const { user_id, question, botId, messageContext } = await req.json();
 
@@ -101,9 +114,16 @@ Answer:
 
         const answer = completion.choices[0]?.message?.content || "No answer generated.";
 
-        return NextResponse.json({ answer });
+        return NextResponse.json(
+            { answer },
+
+        );
     } catch (err) {
         console.error(err);
-        return NextResponse.json({ error: "Server error" }, { status: 500 });
+        return NextResponse.json(
+            { error: "Server error" },
+
+
+        );
     }
 }
