@@ -190,7 +190,7 @@ function PreviewChat({showContactPage, botId, chatLoading, appearanceColor, chat
 
                         {allMessages.map(eachMessage => eachMessage.sender === 'AI' ?
                             <AiMessage key={eachMessage.sender + eachMessage.message} message={eachMessage.message} chatbotName={chatbotName}/> :
-                            <UserMessage textColor={textColor} key={eachMessage} chatColor={chatColor} message={eachMessage.message}/>)}
+                            <UserMessage textColor={textColor} key={eachMessage.message} chatColor={chatColor} message={eachMessage.message}/>)}
                         
                     </div>
 
