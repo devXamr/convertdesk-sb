@@ -12,7 +12,7 @@ import {ParamValue} from "next/dist/server/request/params";
 
 function getTextColor(backgroundColor: string): string {
 
-    if(backgroundColor){
+
         const r = parseInt(backgroundColor.substr(1, 2), 16);
         const g = parseInt(backgroundColor.substr(3, 2), 16);
         const b = parseInt(backgroundColor.substr(5, 2), 16);
@@ -21,7 +21,7 @@ function getTextColor(backgroundColor: string): string {
 
         return luminance < 128 ? '#FFFFFF' : '#000000';
 
-    }
+
 
 }
 
