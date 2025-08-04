@@ -14,6 +14,16 @@ const supabase = createClient(
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
 
 
+export async function OPTIONS() {
+    return NextResponse.json({}, {
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        },
+    });
+}
+
 
 export async function POST(req: Request) {
 
@@ -45,7 +55,7 @@ export async function POST(req: Request) {
                 .single();
 
             if (botError || !botData) {
-                return NextResponse.json({ error: "Invalid botId" }, { status: 404 });
+                return NextResponse.json({ error: "Invalid botId" }, { status: 404 } );
             }
 
             console.log("here's whats returned in botData", botData)
@@ -116,12 +126,22 @@ Answer:
 
         return NextResponse.json(
             { answer },
+            {
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                },
+            }
 
         );
     } catch (err) {
         console.error(err);
         return NextResponse.json(
             { error: "Server error" },
+            {
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                },
+            }
 
 
         );
