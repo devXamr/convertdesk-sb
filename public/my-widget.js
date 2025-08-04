@@ -118,7 +118,7 @@
         suggestionContainer.style.flexWrap = "wrap";
         suggestionContainer.style.gap = "4px";
         suggestionContainer.style.padding = "4px";
-        mergedSettings.default_messages.forEach((msg) => {
+        mergedSettings.defaultMessages.forEach((msg) => {
             const btn = document.createElement("div");
             btn.textContent = msg;
             btn.style.fontSize = "12px";
