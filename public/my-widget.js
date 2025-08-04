@@ -164,7 +164,7 @@
         footer.style.justifyContent = "center";
         footer.style.alignItems = "center";
         footer.innerHTML = `
-        <img src="/convertdesklogo.png" alt="convertdesk logo" style="width: 24px; margin-right: 4px;" />
+        <img src="https://supabase-convertdesk.vercel.app/convertdesklogo.png" alt="convertdesk logo" style="width: 24px; margin-right: 4px;" />
         powered by ConvertDesk
     `;
         chatWindow.appendChild(footer);
