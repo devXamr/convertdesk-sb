@@ -40,7 +40,7 @@
         bubble.style[mergedSettings.placement.includes("left") ? "left" : "right"] =
             "20px";
         bubble.style.padding = "12px";
-        bubble.style.backgroundColor = mergedSettings.primary_color;
+        bubble.style.backgroundColor = mergedSettings.appearanceColor;
         bubble.style.color = "#fff";
         bubble.style.borderRadius = "50%";
         bubble.style.cursor = "pointer";
@@ -56,15 +56,15 @@
         chatWindow.style[mergedSettings.placement.includes("left") ? "left" : "right"] =
             "20px";
         chatWindow.style.width =
-            mergedSettings.size === "large"
+            mergedSettings.botSize === "large"
                 ? "450px"
-                : mergedSettings.size === "small"
+                : mergedSettings.botSize === "small"
                     ? "300px"
                     : "400px";
         chatWindow.style.height =
-            mergedSettings.size === "large"
+            mergedSettings.botSize === "large"
                 ? "600px"
-                : mergedSettings.size === "small"
+                : mergedSettings.botSize === "small"
                     ? "400px"
                     : "500px";
         chatWindow.style.backgroundColor = "#f9fafb";
@@ -79,11 +79,11 @@
         document.body.appendChild(chatWindow);
 
         const header = document.createElement("div");
-        header.style.backgroundColor = mergedSettings.primary_color;
+        header.style.backgroundColor = mergedSettings.appearanceColor;
         header.style.color = "#fff";
         header.style.padding = "10px";
         header.textContent =
-            mergedSettings.chatbot_name + " - " + mergedSettings.company_name;
+            mergedSettings.chatbotName + " - " + mergedSettings.companyName;
         chatWindow.appendChild(header);
 
         const messagesContainer = document.createElement("div");
@@ -98,7 +98,7 @@
             aiMsg.style.marginLeft = "4px";
             aiMsg.style.fontSize = "12px";
             aiMsg.style.color = "gray";
-            aiMsg.textContent = mergedSettings.chatbot_name;
+            aiMsg.textContent = mergedSettings.chatbotName;
             messagesContainer.appendChild(aiMsg);
 
             const aiBubble = document.createElement("div");
@@ -185,8 +185,8 @@
             userBubble.style.fontSize = "14px";
             userBubble.style.padding = "8px 12px";
             userBubble.style.marginTop = "8px";
-            userBubble.style.backgroundColor = mergedSettings.chat_color;
-            userBubble.style.color = getTextColor(mergedSettings.chat_color);
+            userBubble.style.backgroundColor = mergedSettings.chatColor;
+            userBubble.style.color = getTextColor(mergedSettings.chatColor);
             userBubble.style.borderRadius = "4px";
             userBubble.style.maxWidth = "70%";
             userBubble.style.width = "fit-content";
