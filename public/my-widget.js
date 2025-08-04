@@ -92,7 +92,7 @@
         messagesContainer.style.padding = "8px";
         chatWindow.appendChild(messagesContainer);
 
-        mergedSettings.welcomeMessages.forEach((msg) => {
+        mergedSettings.welcome_messages.forEach((msg) => {
             const aiMsg = document.createElement("div");
             aiMsg.style.marginTop = "8px";
             aiMsg.style.marginLeft = "4px";
