@@ -2,7 +2,7 @@
     console.log("ConvertDesk widget loaded!");
 
     const DEFAULT_SETTINGS = {
-        bot_size: "medium",
+        size: "medium",
         placement: "bottom-right",
         appearance_color: "#0d0872",
         chatbot_name: "AI Bot",
@@ -40,7 +40,7 @@
         bubble.style[mergedSettings.placement.includes("left") ? "left" : "right"] =
             "20px";
         bubble.style.padding = "12px";
-        bubble.style.backgroundColor = mergedSettings.appearanceColor;
+        bubble.style.backgroundColor = mergedSettings.primary_color;
         bubble.style.color = "#fff";
         bubble.style.borderRadius = "50%";
         bubble.style.cursor = "pointer";
@@ -56,15 +56,15 @@
         chatWindow.style[mergedSettings.placement.includes("left") ? "left" : "right"] =
             "20px";
         chatWindow.style.width =
-            mergedSettings.botSize === "large"
+            mergedSettings.size === "large"
                 ? "450px"
-                : mergedSettings.botSize === "small"
+                : mergedSettings.size === "small"
                     ? "300px"
                     : "400px";
         chatWindow.style.height =
-            mergedSettings.botSize === "large"
+            mergedSettings.size === "large"
                 ? "600px"
-                : mergedSettings.botSize === "small"
+                : mergedSettings.size === "small"
                     ? "400px"
                     : "500px";
         chatWindow.style.backgroundColor = "#f9fafb";
@@ -79,11 +79,11 @@
         document.body.appendChild(chatWindow);
 
         const header = document.createElement("div");
-        header.style.backgroundColor = mergedSettings.appearanceColor;
+        header.style.backgroundColor = mergedSettings.primary_color;
         header.style.color = "#fff";
         header.style.padding = "10px";
         header.textContent =
-            mergedSettings.chatbotName + " - " + mergedSettings.companyName;
+            mergedSettings.chatbot_name + " - " + mergedSettings.company_name;
         chatWindow.appendChild(header);
 
         const messagesContainer = document.createElement("div");
@@ -98,7 +98,7 @@
             aiMsg.style.marginLeft = "4px";
             aiMsg.style.fontSize = "12px";
             aiMsg.style.color = "gray";
-            aiMsg.textContent = mergedSettings.chatbotName;
+            aiMsg.textContent = mergedSettings.chatbot_name;
             messagesContainer.appendChild(aiMsg);
 
             const aiBubble = document.createElement("div");
@@ -118,7 +118,7 @@
         suggestionContainer.style.flexWrap = "wrap";
         suggestionContainer.style.gap = "4px";
         suggestionContainer.style.padding = "4px";
-        mergedSettings.defaultMessages.forEach((msg) => {
+        mergedSettings.default_messages.forEach((msg) => {
             const btn = document.createElement("div");
             btn.textContent = msg;
             btn.style.fontSize = "12px";
@@ -185,8 +185,8 @@
             userBubble.style.fontSize = "14px";
             userBubble.style.padding = "8px 12px";
             userBubble.style.marginTop = "8px";
-            userBubble.style.backgroundColor = mergedSettings.chatColor;
-            userBubble.style.color = getTextColor(mergedSettings.chatColor);
+            userBubble.style.backgroundColor = mergedSettings.chat_color;
+            userBubble.style.color = getTextColor(mergedSettings.chat_color);
             userBubble.style.borderRadius = "4px";
             userBubble.style.maxWidth = "70%";
             userBubble.style.width = "fit-content";
@@ -203,7 +203,7 @@
             aiMsg.style.marginLeft = "4px";
             aiMsg.style.fontSize = "12px";
             aiMsg.style.color = "gray";
-            aiMsg.textContent = mergedSettings.chatbotName;
+            aiMsg.textContent = mergedSettings.chatbot_name;
             messagesContainer.appendChild(aiMsg);
 
             const aiBubble = document.createElement("div");
