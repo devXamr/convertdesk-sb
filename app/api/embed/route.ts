@@ -6,6 +6,16 @@ const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
+
+export async function OPTIONS() {
+    return NextResponse.json({}, {
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        },
+    });
+}
 export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     const botId = searchParams.get("botId");
@@ -24,5 +34,9 @@ export async function GET(req: Request) {
         return NextResponse.json({ error: "Bot not found" }, { status: 404 });
     }
 
-    return NextResponse.json(data.appearance_settings);
+    return NextResponse.json(data.appearance_settings, {
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+        },
+    });
 }

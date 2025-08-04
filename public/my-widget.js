@@ -2,17 +2,17 @@
     console.log("ConvertDesk widget loaded!");
 
     const DEFAULT_SETTINGS = {
-        botSize: "medium",
+        bot_size: "medium",
         placement: "bottom-right",
-        appearanceColor: "#0d0872",
-        chatbotName: "AI Bot",
-        companyName: "ConvertDesk",
-        chatColor: "#10B981",
-        welcomeMessages: [
+        appearance_color: "#0d0872",
+        chatbot_name: "AI Bot",
+        company_name: "ConvertDesk",
+        chat_color: "#10B981",
+        welcome_messages: [
             "Hey there! How can I help you?",
             "You can ask me anything about ConvertDesk.",
         ],
-        defaultMessages: [
+        default_messages: [
             "Tell me about ConvertDesk",
             "What are the services of ConvertDesk?",
         ],
@@ -251,6 +251,7 @@
         try {
             const res = await fetch(`https://supabase-convertdesk.vercel.app/api/embed?botId=${botId}`);
             const settings = res.ok ? await res.json() : {};
+            console.log("Here are the settings that I got", settings)
             createWidget(settings, botId);
         } catch (err) {
             console.error("Failed to fetch bot settings:", err);
