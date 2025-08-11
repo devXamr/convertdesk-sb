@@ -124,7 +124,7 @@ function DashboardPage() {
             {allUserBots && allUserBots.map(eachBot => <div  className='grid my-2 relative grid-cols-10 justify-between px-5 py-6 rounded-md col-span-1 border bg-gradient-to-r from-blue-300 via-blue-100 to-blue-100 hover:bg-blue-50 transition-colors'>
                 <div className='col-span-2'>
                     <div className='text-xs text-gray-500'>Feature Type</div>
-                    <div>Chatbot</div>
+                    <div>{eachBot.type}</div>
 
 
                 </div>
