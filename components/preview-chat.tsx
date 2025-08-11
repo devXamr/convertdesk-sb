@@ -151,7 +151,7 @@ function PreviewChat({showContactPage, botId, chatLoading, appearanceColor, chat
     return (
         <div>
             {chatLoading && <div className='mx-auto w-fit mt-10 animate-spin text-gray-600'><Loader/></div>}
-        {!chatLoading && <div className={`absolute ${botPlacement === 'bottom-right' ? 'right-2' : 'left-2'} bottom-2`}>
+        {!chatLoading && <div className={`absolute ${botPlacement === 'bottom-right' ? 'right-1/2 translate-x-1/2' : 'left-1/2 -translate-x-1/2'} bottom-2`}>
             {chatIconClicked && <div className={`bottom-14 flex flex-col relative ${botSize === 'large' && 'h-[600px] w-[450px]'} ${botSize === 'medium' && 'h-[500px] w-[400px]'} ${botSize === 'small' && 'h-[400px] w-[300px]'} bg-gray-50 border-gray-300 shadow-sm rounded-md border`}>
                 <div className='flex py-2 px-2 items-center gap-4' style={{backgroundColor: appearanceColor}}>
                     <div className='rounded-full w-10 h-10 bg-black'></div>

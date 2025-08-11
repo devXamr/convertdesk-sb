@@ -92,20 +92,16 @@ function AppearanceConfigSection({botId} : {botId: ParamValue}) {
 
 
 
-    return <div className='py-10'>
+    return <div>
 
 
-        <div>
-            <div className='text-xl font-medium'>Bot Appearance</div>
-            <div className='mb-5 text-sm text-gray-500'>Select the appearance of your bot (This can be changed
-                later.)
-            </div>
-        </div>
+
 
         <div className='grid grid-cols-5 gap-5'>
 
 
-            <div className='col-span-2'>
+            <div className='col-span-2 border-r'>
+
                 <AppearanceSettings wantsLeadCapture={wantsLeadCapture} setWantsLeadCapture={setWantsLeadCapture}
                                     appearanceColor={appearanceColor} setAppearanceColor={setAppearanceColor}
                                     companyName={companyName} setCompanyName={setCompanyName} chatbotName={chatbotName}
@@ -118,19 +114,22 @@ function AppearanceConfigSection({botId} : {botId: ParamValue}) {
 
             </div>
 
-            <div className='col-span-3 flex flex-col border rounded-md shadow-sm pt-5 h-fit sticky top-0 '>
+            <div className='col-span-3 flex flex-col border rounded-md shadow-sm pt-5 h-fit sticky top-0'>
                 <div className='text-lg px-5 font-light'>Preview</div>
 
-                <div className='min-h-[750px] flex-1  bg-gray-50 rounded-sm mt-4 relative'>
+                <div id='previewchat' className='min-h-[750px] flex-1  bg-gray-50 rounded-sm mt-4 relative'>
                     {wantsLeadCapture && <button
                         className={`cursor-pointer px-4 py-1 text-sm bg-gray-100 text-gray-500 my-3 mx-3 rounded-md border ${showContactPage && "bg-green-100"}`}
                         onClick={() => setShowContactPage(prev => !prev)}>Show Contact
                         Page {showContactPage && 'X'}</button>}
+
+
                     <PreviewChat botId={botId} chatLoading={isChatloading} appearanceColor={appearanceColor}
                                  companyName={companyName} chatbotName={chatbotName}
                                  welcomeMessages={welcomeMessages} botPlacement={botPlacement} botSize={botSize}
                                  defaultMessages={defaultMessages} chatColor={chatColor}
                                  showContactPage={showContactPage}/>
+
                 </div>
             </div>
 

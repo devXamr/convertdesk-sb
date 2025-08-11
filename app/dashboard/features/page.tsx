@@ -59,7 +59,7 @@ function FeaturesPage(props) {
 
                     <AppSidebarDashboard/>
 
-                    <SidebarInset>
+                    <SidebarInset >
 
                         <div>
 

@@ -53,7 +53,13 @@ function AppearanceSettings({wantsLeadCapture, setWantsLeadCapture, chatColor, o
     }, [wantsLeadCapture]);
 
     return (
-        <div className='bg-white px-5 py-5 border rounded-md h-full shadow-sm'>
+        <div className='bg-white px-5 py-5 border h-full shadow-sm'>
+            <div>
+                <div className='text-xl font-medium'>Bot Appearance</div>
+                <div className='mb-10 text-sm text-gray-500'>Select the appearance of your bot (This can be changed
+                    later.)
+                </div>
+            </div>
             <div className='text-lg font-light'>Appearance Settings</div>
             <div className='flex mt-7 gap-4'>
                 <div>
@@ -96,12 +102,17 @@ function AppearanceSettings({wantsLeadCapture, setWantsLeadCapture, chatColor, o
 
             <div className='flex mt-7 gap-4 items-center'>
                 <div>
-                    <div>Capture Contact Info. <span className='px-2 py-1 text-xs text-gray-500 rounded-md mx-2 font-light bg-gray-100'>Recommended</span></div>
-                    <div className='text-xs text-gray-600 mb-2 mt-1'> Asks visitor for basic contact information (Information is added to the leads table).</div>
+                    <div>Capture Contact Info. <span
+                        className='px-2 py-1 text-xs text-gray-500 rounded-md mx-2 font-light bg-gray-100'>Recommended</span>
+                    </div>
+                    <div className='text-xs text-gray-600 mb-2 mt-1'> Asks visitor for basic contact information
+                        (Information is added to the leads table).
+                    </div>
                 </div>
 
                 <div className='w-12 h-5'>
-                    <input type='checkbox' checked={wantsLeadCapture} onChange={(e) => setWantsLeadCapture(e.target.checked)}
+                    <input type='checkbox' checked={wantsLeadCapture}
+                           onChange={(e) => setWantsLeadCapture(e.target.checked)}
                            className='w-full h-full border rounded-md px-2 text-sm'/>
                 </div>
             </div>
