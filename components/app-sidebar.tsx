@@ -37,6 +37,12 @@ export function AppSidebar({ botId, ...props}: AppSidebarDashboardProps) {
                   </SidebarMenuItem>
 
                 <SidebarMenuItem >
+                    <SidebarMenuButton asChild>
+                      <Link href={`/dashboard/${botId}/voice`}>Voice</Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+
+                <SidebarMenuItem >
                   <SidebarMenuButton asChild>
                     <Link href={`/dashboard/${botId}/config`}>Configuration</Link>
                   </SidebarMenuButton>
