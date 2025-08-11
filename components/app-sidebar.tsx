@@ -32,38 +32,38 @@ export function AppSidebar({ botId, ...props}: AppSidebarDashboardProps) {
 
                   <SidebarMenuItem >
                     <SidebarMenuButton asChild>
-                      <Link href={`/dashboard/${botId}/appearance`}>Appearance</Link>
+                      <Link href={`/dashboard/features/${botId}/appearance`}>Appearance</Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
 
                 <SidebarMenuItem >
                     <SidebarMenuButton asChild>
-                      <Link href={`/dashboard/${botId}/voice`}>Voice</Link>
+                      <Link href={`/dashboard/features/${botId}/voice`}>Voice</Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
 
                 <SidebarMenuItem >
                   <SidebarMenuButton asChild>
-                    <Link href={`/dashboard/${botId}/config`}>Configuration</Link>
+                    <Link href={`/dashboard/features/${botId}/config`}>Configuration</Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
 
                 <SidebarMenuItem >
                   <SidebarMenuButton asChild>
-                    <Link href={`/dashboard/${botId}/settings`}>Settings</Link>
+                    <Link href={`/dashboard/features/${botId}/settings`}>Settings</Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
 
                 <SidebarMenuItem >
                   <SidebarMenuButton asChild>
-                    <Link href={`/dashboard/${botId}/leads`}>Leads</Link>
+                    <Link href={`/dashboard/features/${botId}/leads`}>Leads</Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
 
 
                 <SidebarMenuItem >
                   <SidebarMenuButton asChild>
-                    <Link href={`/dashboard/${botId}/integrations`}>Integrations</Link>
+                    <Link href={`/dashboard/features/${botId}/integrations`}>Integrations</Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
 

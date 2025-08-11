@@ -19,7 +19,11 @@ import {SidebarInset, SidebarProvider} from "@/components/ui/sidebar";
 import {AppSidebarDashboard} from "@/components/app-sidebar-dashboard";
 
 export default async function ProtectedPage() {
+
+  redirect(`/dashboard/home`)
   const supabase = await createClient();
+
+
 
 
   const { data, error } = await supabase.auth.getUser();
@@ -40,6 +44,7 @@ export default async function ProtectedPage() {
     console.log("This is the user's info", userInfo)
 
   return (
+
 
       <div>
         <div className='flex justify-between border-b items-center'>
@@ -76,22 +81,6 @@ export default async function ProtectedPage() {
           </nav>
 
         </div>
-        <SidebarProvider>
-
-          <AppSidebarDashboard/>
-
-          <SidebarInset>
-            <div>
-
-              <div className='max-w-5xl mx-auto py-10'>
-                <DashboardPage/>
-
-              </div>
-
-
-            </div>
-          </SidebarInset>
-        </SidebarProvider>
 
       </div>
   );

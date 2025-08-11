@@ -27,7 +27,13 @@ export function AppSidebarDashboard({...props}: AppSidebarDashboardProps) {
 
                             <SidebarMenuItem >
                                 <SidebarMenuButton asChild>
-                                    <Link href={`/dashboard`}>Agents</Link>
+                                    <Link href={`/dashboard/home`}>Homepage</Link>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+
+                            <SidebarMenuItem >
+                                <SidebarMenuButton asChild>
+                                    <Link href={`/dashboard/features`}>Features</Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
 
