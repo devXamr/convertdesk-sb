@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import {createClient} from "@/lib/supabase/client";
 import Link from "next/link";
 import {Session} from "@supabase/auth-js";
+import {MoveRight} from "lucide-react";
 
 
 
@@ -87,7 +88,7 @@ function DashboardPage() {
         // use this id to create a new bot in bot_info and also increase the users count here.
 
         // here, pass in the id and fetch it at the route to then add files to that subfolder in the users storage folder
-        nav.push(`/dashboard/${id}`)
+        nav.push(`/dashboard/features/${id}`)
     }
 
     async function handleBotCreation(id: string){
@@ -107,33 +108,39 @@ function DashboardPage() {
         <div>
             <div className='flex justify-between'>
                 <div>
-                    <div className='text-xl font-medium'>Your Chatbots</div>
-                    <div className='text-gray-600 dark:text-gray-200'>Create and manage your chatbots</div>
+                    <div className='text-xl font-medium'>Your Features</div>
+                    <div className='text-gray-600 dark:text-gray-200'>Deploy new and manage existing features.</div>
                 </div>
                 <div className='relative'>
                 <Button onClick={handleRouting}
-                        className='bg-gray-600 block h-fit px-4 py-2 rounded-sm border border-gray-500 hover:bg-gray-400 text-sm'>Create
-                    Bot</Button>
+                        className='bg-gray-600 block h-fit px-4 py-2 rounded-sm border border-gray-500 hover:bg-gray-400 text-sm'>Create New Feature
+                </Button>
                     {error && <div className='top-10 w-[400px] text-sm absolute text-red-600 bg-red-200 border border-red-400 rounded-md px-5 py-3'>You have created the maximum number of bots allowed on your account, upgrade for more.</div>}
                 </div>
 
             </div>
             {allUserBots && allUserBots.length === 0 && <div> you havent created any bots </div>}
-            <div className='grid grid-cols-2 gap-4 py-4'>
-            {allUserBots && allUserBots.map(eachBot => <Link href={`/dashboard/features/${eachBot.botId}/appearance`} className='px-5 py-6 rounded-md block col-span-1 border bg-blue-100 hover:bg-blue-50 transition-colors'>
-                <div>
-                    <div className='text-xs text-gray-500'>Bot Name</div>
+            <div className='mt-10'>
+            {allUserBots && allUserBots.map(eachBot => <div  className='grid my-2 relative grid-cols-10 justify-between px-5 py-6 rounded-md col-span-1 border bg-gradient-to-r from-blue-300 via-blue-100 to-blue-100 hover:bg-blue-50 transition-colors'>
+                <div className='col-span-2'>
+                    <div className='text-xs text-gray-500'>Feature Type</div>
+                    <div>Chatbot</div>
+
+
+                </div>
+                <div className='col-span-2'>
+                    <div className='text-xs text-gray-500'>Name</div>
                     <div>{eachBot.appearance_settings.chatbot_name}</div>
                 </div>
-                <div>
-                    <div className='text-xs text-gray-500 mt-5'>Company Name</div>
+                <div className='col-span-3'>
+                    <div className='text-xs text-gray-500'>Company Name</div>
                     <div>{eachBot.appearance_settings.company_name}</div>
                 </div>
 
-                <div className='text-gray-400 text-sm text-center mt-10'>
-                    click to manage
-                </div>
-            </Link>)}
+                <Link title='Manage Feature' href={`/dashboard/features/${eachBot.botId}/appearance`} className='text-gray-400 absolute right-4 top-1/2 -translate-y-1/2 text-sm text-center'>
+                    <MoveRight/>
+                </Link>
+            </div>)}
             </div>
 
 
