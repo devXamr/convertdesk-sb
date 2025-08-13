@@ -8,7 +8,7 @@ function CreateBotPage() {
 
 
     useEffect(() => {
-        redirect(`/dashboard/${botId}/appearance`)
+        redirect(`/dashboard/features/${botId}/appearance`)
     }, []);
 
 
