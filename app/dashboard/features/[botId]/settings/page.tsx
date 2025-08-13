@@ -34,9 +34,9 @@ function Page() {
 
         const botInfo = await supabase.from('user_bots').select().eq("botId", botId)
 
-        console.log("This is the botInfo received", botInfo.data[0])
+        console.log("This is the botInfo received", botInfo.data?.[0])
 
-        setBotDetails(botInfo.data[0])
+        setBotDetails(botInfo.data?.[0])
 
     }
 
@@ -58,8 +58,8 @@ function Page() {
         const deleteBot = await supabase.from("user_bots").delete().eq("botId", botId)
         console.log("The deletion has taken place!", deleteBot)
         const getBotCount = await supabase.from("User_Info").select("bots_created").eq("user_id", botDetails.user_id)
-        console.log("This is the botCount before", getBotCount.data[0].bots_created)
-        const decrementBotCount = await supabase.from("User_Info").update({bots_created : getBotCount.data[0].bots_created - 1}).eq("user_id", botDetails.user_id)
+        console.log("This is the botCount before", getBotCount.data?.[0].bots_created)
+        const decrementBotCount = await supabase.from("User_Info").update({bots_created : getBotCount.data?.[0].bots_created - 1}).eq("user_id", botDetails.user_id)
 
 
         const getBotCountAgain = await supabase.from("User_Info").select("bots_created").eq("user_id", botDetails.user_id)
