@@ -16,7 +16,7 @@ import {
   BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import {SidebarInset, SidebarProvider} from "@/components/ui/sidebar";
-import {AppSidebarDashboard} from "@/components/app-sidebar-dashboard";
+import {AppSidebarDashboard} from "@/components/sidebar/app-sidebar-dashboard";
 
 export default async function ProtectedPage() {
 

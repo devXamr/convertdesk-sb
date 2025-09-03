@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import PreviewChat from "@/components/preview-chat";
-import AppearanceSettings from "@/components/appearance-settings";
+import PreviewChat from "@/components/appearance-page/preview-chat";
+import AppearanceSettings from "@/components/appearance-page/appearance-settings";
 import {createClient} from "@/lib/supabase/client";
 import {ParamValue} from "next/dist/server/request/params";
 

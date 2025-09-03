@@ -13,7 +13,7 @@ import {EnvVarWarning} from "@/components/env-var-warning";
 import {AuthButton} from "@/components/auth-button";
 import {ThemeSwitcher} from "@/components/theme-switcher";
 import {SidebarInset, SidebarProvider} from "@/components/ui/sidebar";
-import {AppSidebarDashboard} from "@/components/app-sidebar-dashboard";
+import {AppSidebarDashboard} from "@/components/sidebar/app-sidebar-dashboard";
 
 function HomePage() {
     return (

@@ -2,7 +2,10 @@ import React from 'react';
 
 function Page() {
     return (
-        <div>Integrations Page</div>
+        <div>
+            Integrations
+            <div>Coming Soon!</div>
+        </div>
     );
 }
 
