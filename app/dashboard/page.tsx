@@ -5,7 +5,7 @@ import Image from "next/image";
 import convertDeskBG from "@/public/convertdesklogo.png";
 import {hasEnvVars} from "@/lib/utils";
 import {EnvVarWarning} from "@/components/env-var-warning";
-import {AuthButton} from "@/components/auth-button";
+import {AuthButton} from "@/components/auth/auth-button";
 import {ThemeSwitcher} from "@/components/theme-switcher";
 import React from "react";
 import {

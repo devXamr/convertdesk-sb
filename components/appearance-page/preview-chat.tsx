@@ -1,11 +1,11 @@
 'use client'
 import React, {useEffect, useState} from 'react';
 import {Loader, MessageSquareDot, Send} from "lucide-react";
-import AiMessage from "@/components/ai-message";
+import AiMessage from "@/components/appearance-page/ai-message";
 import Image from 'next/image'
-import logo from '../public/convertdesklogo.png'
+import logo from '../../public/convertdesklogo.png'
 import {createClient} from "@/lib/supabase/client";
-import UserMessage from "@/components/user-message";
+import UserMessage from "@/components/appearance-page/user-message";
 import axios from "axios";
 import {cryptoRuntime} from "jose";
 import {ParamValue} from "next/dist/server/request/params";

@@ -1,7 +1,7 @@
 'use client'
 import React from 'react';
 import {useParams} from "next/navigation";
-import BotConfigSection from "@/components/bot-config-section";
+import BotConfigSection from "@/components/appearance-page/bot-config-section";
 
 function Page() {
     const {botId} = useParams()

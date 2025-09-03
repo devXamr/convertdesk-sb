@@ -2,7 +2,7 @@
 import React, {useEffect, useState} from 'react';
 import Link from "next/link";
 import {useParams} from "next/navigation";
-import {AppSidebar} from "@/components/app-sidebar";
+import {AppSidebar} from "@/components/sidebar/app-sidebar";
 import {SidebarInset, SidebarProvider} from "@/components/ui/sidebar";
 import {
     Breadcrumb,
