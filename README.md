@@ -102,5 +102,5 @@ Response:
 
 📜 License
 
-MIT License. See [LICENSE](https://)
+MIT License. See [LICENSE](https://github.com/devXamr/convertdesk-sb/blob/main/LICENSE)
  for details.
